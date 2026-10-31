@@ -34,33 +34,66 @@
       </a-marker>
 
       <!-- ========================================== -->
-      <!-- 3. МОДЕЛЬ РЕЗЕРФОРДА (1911)                -->
+      <!-- 3. МОДЕЛЬ РЕЗЕРФОРДА (1911) - ОНОВЛЕНА (6 електронів) -->
       <!-- ========================================== -->
       <a-marker type="pattern" url="./pattern-rutherford.patt">
         <a-entity position="0 0.6 0">
+          
+          <!-- Ядро -->
           <a-entity>
             <a-sphere position="0 0 0" radius="0.15" color="#FF4500"></a-sphere>
             <a-sphere position="0.05 0.05 0" radius="0.1" color="#DC143C"></a-sphere>
             <a-sphere position="-0.05 -0.05 0" radius="0.1" color="#DC143C"></a-sphere>
           </a-entity>
+
+          <!-- Орбіта 1 (Горизонтальна, 0 град) -->
           <a-entity rotation="0 0 0">
             <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 3000; easing: linear">
               <a-ring radius-inner="0.68" radius-outer="0.7" color="#555555" rotation="90 0 0" side="double"></a-ring>
               <a-sphere position="0.7 0 0" radius="0.08" color="#1E90FF"></a-sphere>
             </a-entity>
           </a-entity>
+
+          <!-- Орбіта 2 (Нахил 30 град) -->
+          <a-entity rotation="30 0 0">
+            <a-entity animation="property: rotation; to: 0 -360 0; loop: true; dur: 3200; easing: linear">
+              <a-ring radius-inner="0.68" radius-outer="0.7" color="#555555" rotation="90 0 0" side="double"></a-ring>
+              <a-sphere position="0.7 0 0" radius="0.08" color="#1E90FF"></a-sphere>
+            </a-entity>
+          </a-entity>
+
+          <!-- Орбіта 3 (Нахил 60 град) -->
           <a-entity rotation="60 0 0">
+            <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 3800; easing: linear">
+              <a-ring radius-inner="0.68" radius-outer="0.7" color="#555555" rotation="90 0 0" side="double"></a-ring>
+              <a-sphere position="0.7 0 0" radius="0.08" color="#1E90FF"></a-sphere>
+            </a-entity>
+          </a-entity>
+
+          <!-- Орбіта 4 (Нахил 90 град - Вертикальна) -->
+          <a-entity rotation="90 0 0">
+            <a-entity animation="property: rotation; to: 0 -360 0; loop: true; dur: 3500; easing: linear">
+              <a-ring radius-inner="0.68" radius-outer="0.7" color="#555555" rotation="90 0 0" side="double"></a-ring>
+              <a-sphere position="0.7 0 0" radius="0.08" color="#1E90FF"></a-sphere>
+            </a-entity>
+          </a-entity>
+
+          <!-- Орбіта 5 (Нахил 120 град) -->
+          <a-entity rotation="120 0 0">
             <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 4000; easing: linear">
               <a-ring radius-inner="0.68" radius-outer="0.7" color="#555555" rotation="90 0 0" side="double"></a-ring>
               <a-sphere position="0.7 0 0" radius="0.08" color="#1E90FF"></a-sphere>
             </a-entity>
           </a-entity>
-          <a-entity rotation="120 0 0">
-            <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 3500; easing: linear">
+
+          <!-- Орбіта 6 (Нахил 150 град) -->
+          <a-entity rotation="150 0 0">
+            <a-entity animation="property: rotation; to: 0 -360 0; loop: true; dur: 3100; easing: linear">
               <a-ring radius-inner="0.68" radius-outer="0.7" color="#555555" rotation="90 0 0" side="double"></a-ring>
               <a-sphere position="0.7 0 0" radius="0.08" color="#1E90FF"></a-sphere>
             </a-entity>
           </a-entity>
+
         </a-entity>
         <a-text value="E. Rutherford (1911)" position="-0.8 1.4 0" color="#FFFFFF" rotation="-90 0 0" scale="0.8 0.8 0.8"></a-text>
       </a-marker>
@@ -105,8 +138,6 @@
       <!-- ========================================== -->
       <a-marker type="pattern" url="./pattern-schrodinger.patt">
         <a-entity position="0 0.6 0">
-          
-          <!-- Ядро (деталізоване: протони та нейтрони) -->
           <a-entity>
             <a-sphere position="0 0 0" radius="0.1" color="#FF4500"></a-sphere>
             <a-sphere position="0.06 0.06 0" radius="0.08" color="#DC143C"></a-sphere>
@@ -114,26 +145,17 @@
             <a-sphere position="0.06 -0.06 0.05" radius="0.08" color="#DC143C"></a-sphere>
             <a-sphere position="-0.06 0.06 -0.05" radius="0.08" color="#696969"></a-sphere>
           </a-entity>
-
-          <!-- Електронна хмара (Сферична s-орбіталь) -->
-          <!-- Пульсує за допомогою анімації scale -->
           <a-sphere radius="0.5" color="#4169E1" opacity="0.15" transparent="true" side="double"
                     animation="property: scale; to: 1.15 1.15 1.15; dir: alternate; dur: 2000; loop: true; easing: easeInOutSine">
           </a-sphere>
-          
           <a-sphere radius="0.3" color="#4169E1" opacity="0.25" transparent="true" side="double"
                     animation="property: scale; to: 1.2 1.2 1.2; dir: alternate; dur: 1500; loop: true; easing: easeInOutSine">
           </a-sphere>
-
-          <!-- Електронна хмара (Гантелеподібна p-орбіталь) -->
-          <!-- Обертається у просторі навколо всіх осей -->
           <a-entity animation="property: rotation; to: 360 360 0; loop: true; dur: 8000; easing: linear">
             <a-sphere position="0 0.35 0" radius="0.2" scale="1 1.5 1" color="#9370DB" opacity="0.5" transparent="true"></a-sphere>
             <a-sphere position="0 -0.35 0" radius="0.2" scale="1 1.5 1" color="#9370DB" opacity="0.5" transparent="true"></a-sphere>
           </a-entity>
-          
         </a-entity>
-        
         <a-text value="Erwin Schrodinger (1926)" position="-0.8 1.5 0" color="#FFFFFF" rotation="-90 0 0" scale="0.8 0.8 0.8"></a-text>
       </a-marker>
       
