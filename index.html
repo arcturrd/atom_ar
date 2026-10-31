@@ -3,23 +3,55 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Модель атома Джона Дальтона (AR)</title>
-    <!-- Стабільна зв'язка бібліотек через надійний CDN jsDelivr -->
+    <title>Моделі атомів (AR)</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@master/aframe/build/aframe-ar.js"></script>
   </head>
   <body style="margin: 0px; overflow: hidden;">
+    <!-- Зверніть увагу: залишено patternRatio: 0.90, який спрацював у вас -->
     <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false; patternRatio: 0.90;">
       
-      <!-- Шлях до вашого файлу маркера -->
-      <a-marker type="pattern" url="./pattern-dalton.patt.txt">
-        
-        <!-- 3D-модель атома Дальтона -->
+      <!-- ========================================== -->
+      <!-- 1. МОДЕЛЬ ДАЛЬТОНА (З попереднього кроку)  -->
+      <!-- ========================================== -->
+      <a-marker type="pattern" url="./pattern-dalton.patt">
         <a-sphere position="0 0.5 0" radius="0.6" color="#A0522D" roughness="0.8"></a-sphere>
+        <a-text value="John Dalton (1803)" position="-0.8 1.2 0" color="#FFFFFF" rotation="-90 0 0" scale="0.8 0.8 0.8"></a-text>
+      </a-marker>
+
+      <!-- ========================================== -->
+      <!-- 2. МОДЕЛЬ ТОМСОНА ("Пудинг з родзинками")  -->
+      <!-- ========================================== -->
+      <a-marker type="pattern" url="./pattern-thomson.patt">
+        
+        <!-- Головна позитивна сфера (напівпрозора, щоб було видно електрони всередині) -->
+        <a-sphere position="0 0.6 0" radius="0.7" color="#D2691E" opacity="0.6" transparent="true"></a-sphere>
+
+        <!-- Електрони всередині з анімацією коливання -->
+        <a-entity position="0 0.6 0">
+          <!-- Електрон 1 -->
+          <a-sphere radius="0.1" color="#1E90FF" position="0.3 0.2 0.3">
+            <a-animation attribute="position" to="0.4 0.3 0.4" direction="alternate" dur="1500" repeat="indefinite"></a-animation>
+          </a-sphere>
+          
+          <!-- Електрон 2 -->
+          <a-sphere radius="0.1" color="#1E90FF" position="-0.4 -0.1 0.2">
+             <a-animation attribute="position" to="-0.3 -0.2 0.1" direction="alternate" dur="2000" repeat="indefinite"></a-animation>
+          </a-sphere>
+
+          <!-- Електрон 3 -->
+          <a-sphere radius="0.1" color="#1E90FF" position="0.1 -0.4 -0.3">
+            <a-animation attribute="position" to="0.2 -0.3 -0.2" direction="alternate" dur="1800" repeat="indefinite"></a-animation>
+          </a-sphere>
+          
+          <!-- Електрон 4 -->
+          <a-sphere radius="0.1" color="#1E90FF" position="-0.2 0.4 -0.4">
+            <a-animation attribute="position" to="-0.1 0.3 -0.5" direction="alternate" dur="1700" repeat="indefinite"></a-animation>
+          </a-sphere>
+        </a-entity>
         
         <!-- Підпис над моделлю -->
-        <a-text value="John Dalton (1803)" position="-0.8 1.2 0" color="#FFFFFF" rotation="-90 0 0" scale="0.8 0.8 0.8"></a-text>
-        
+        <a-text value="J.J. Thomson (1904)" position="-0.8 1.4 0" color="#FFFFFF" rotation="-90 0 0" scale="0.8 0.8 0.8"></a-text>
       </a-marker>
       
       <a-entity camera></a-entity>
