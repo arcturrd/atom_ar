@@ -10,137 +10,189 @@
   <body style="margin: 0px; overflow: hidden;">
     
     <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false; patternRatio: 0.90;">
+      
       <!-- ========================================== -->
       <!-- 1. МОДЕЛЬ ДАЛЬТОНА (1803)                  -->
       <!-- ========================================== -->
+      
+      <!-- Старий маркер (Звичайний розмір) -->
       <a-marker type="pattern" url="./pattern-dalton.patt">
-        <!-- Масштабування у 3 рази -->
-        <a-entity scale="3 3 3" position="0 0.5 0">
+        <a-sphere position="0 0.5 0" radius="0.6" color="#A0522D" roughness="0.8"></a-sphere>
+      </a-marker>
+      
+      <!-- Новий маркер (Збільшена в 3 рази) -->
+      <a-marker type="pattern" url="./pattern-dalton-new.patt">
+        <a-entity scale="3 3 3" position="0 1.5 0">
           <a-sphere position="0 0 0" radius="0.6" color="#A0522D" roughness="0.8"></a-sphere>
         </a-entity>
       </a-marker>
 
-      <!-- ========================================== -->
-      <!-- 2. МОДЕЛЬ ТОМСОНА (1904) - "ПУДИНГ З РОДЗИНКАМИ" -->
-      <!-- ========================================== -->
-      <a-marker type="pattern" url="./pattern-thomson.patt">
-        
-        <!-- Масштабування у 3 рази -->
-        <a-entity scale="3 3 3" position="0 1.5 0">
-          
-          <a-entity animation="property: rotation; to: 0 360 360; loop: true; dur: 25000; easing: linear">
-            
-            <a-sphere radius="0.75" color="#FF4500" material="opacity: 0.25; transparent: true; side: double"
-                      animation="property: scale; to: 1.03 1.03 1.03; dir: alternate; dur: 2000; loop: true; easing: easeInOutSine"></a-sphere>
-            
-            <a-sphere radius="0.55" color="#FF8C00" material="blending: additive; opacity: 0.4; transparent: true"></a-sphere>
 
+      <!-- ========================================== -->
+      <!-- 2. МОДЕЛЬ ТОМСОНА (1904)                   -->
+      <!-- ========================================== -->
+      
+      <!-- Старий маркер (Звичайний розмір) -->
+      <a-marker type="pattern" url="./pattern-thomson.patt">
+        <a-entity position="0 0.7 0">
+          <a-entity animation="property: rotation; to: 0 360 360; loop: true; dur: 25000; easing: linear">
+            <a-sphere radius="0.75" color="#FF4500" material="opacity: 0.25; transparent: true; side: double" animation="property: scale; to: 1.03 1.03 1.03; dir: alternate; dur: 2000; loop: true; easing: easeInOutSine"></a-sphere>
+            <a-sphere radius="0.55" color="#FF8C00" material="blending: additive; opacity: 0.4; transparent: true"></a-sphere>
             <a-entity>
-              <a-sphere radius="0.06" color="#00FFFF" position="0.4 0.3 0.2" material="blending: additive"
-                        animation="property: position; to: 0.42 0.28 0.22; dir: alternate; dur: 800; loop: true"></a-sphere>
-              <a-sphere radius="0.06" color="#00FFFF" position="-0.4 0.1 0.4" material="blending: additive"
-                        animation="property: position; to: -0.38 0.12 0.42; dir: alternate; dur: 950; loop: true"></a-sphere>
-              <a-sphere radius="0.06" color="#00FFFF" position="0.1 -0.5 0.3" material="blending: additive"
-                        animation="property: position; to: 0.12 -0.48 0.28; dir: alternate; dur: 1100; loop: true"></a-sphere>
-              <a-sphere radius="0.06" color="#00FFFF" position="-0.3 -0.3 -0.4" material="blending: additive"
-                        animation="property: position; to: -0.32 -0.28 -0.38; dir: alternate; dur: 850; loop: true"></a-sphere>
-              <a-sphere radius="0.06" color="#00FFFF" position="0.3 0.1 -0.5" material="blending: additive"
-                        animation="property: position; to: 0.28 0.12 -0.52; dir: alternate; dur: 1050; loop: true"></a-sphere>
-              <a-sphere radius="0.06" color="#00FFFF" position="-0.2 0.5 -0.1" material="blending: additive"
-                        animation="property: position; to: -0.18 0.52 -0.08; dir: alternate; dur: 900; loop: true"></a-sphere>
-              <a-sphere radius="0.06" color="#00FFFF" position="0.0 0.0 0.6" material="blending: additive"
-                        animation="property: position; to: 0.02 -0.02 0.58; dir: alternate; dur: 1200; loop: true"></a-sphere>
-              <a-sphere radius="0.06" color="#00FFFF" position="0.1 0.4 0.4" material="blending: additive"
-                        animation="property: position; to: 0.08 0.42 0.42; dir: alternate; dur: 1000; loop: true"></a-sphere>
-              <a-sphere radius="0.06" color="#00FFFF" position="-0.5 -0.1 -0.2" material="blending: additive"
-                        animation="property: position; to: -0.48 -0.12 -0.22; dir: alternate; dur: 1150; loop: true"></a-sphere>
-              <a-sphere radius="0.06" color="#00FFFF" position="-0.1 0.1 0.1" material="blending: additive"
-                        animation="property: position; to: -0.12 0.12 0.08; dir: alternate; dur: 700; loop: true"></a-sphere>
+              <a-sphere radius="0.06" color="#00FFFF" position="0.4 0.3 0.2" material="blending: additive" animation="property: position; to: 0.42 0.28 0.22; dir: alternate; dur: 800; loop: true"></a-sphere>
+              <a-sphere radius="0.06" color="#00FFFF" position="-0.4 0.1 0.4" material="blending: additive" animation="property: position; to: -0.38 0.12 0.42; dir: alternate; dur: 950; loop: true"></a-sphere>
+              <a-sphere radius="0.06" color="#00FFFF" position="0.1 -0.5 0.3" material="blending: additive" animation="property: position; to: 0.12 -0.48 0.28; dir: alternate; dur: 1100; loop: true"></a-sphere>
+              <a-sphere radius="0.06" color="#00FFFF" position="-0.3 -0.3 -0.4" material="blending: additive" animation="property: position; to: -0.32 -0.28 -0.38; dir: alternate; dur: 850; loop: true"></a-sphere>
+              <a-sphere radius="0.06" color="#00FFFF" position="0.3 0.1 -0.5" material="blending: additive" animation="property: position; to: 0.28 0.12 -0.52; dir: alternate; dur: 1050; loop: true"></a-sphere>
+              <a-sphere radius="0.06" color="#00FFFF" position="-0.2 0.5 -0.1" material="blending: additive" animation="property: position; to: -0.18 0.52 -0.08; dir: alternate; dur: 900; loop: true"></a-sphere>
+              <a-sphere radius="0.06" color="#00FFFF" position="0.0 0.0 0.6" material="blending: additive" animation="property: position; to: 0.02 -0.02 0.58; dir: alternate; dur: 1200; loop: true"></a-sphere>
+              <a-sphere radius="0.06" color="#00FFFF" position="0.1 0.4 0.4" material="blending: additive" animation="property: position; to: 0.08 0.42 0.42; dir: alternate; dur: 1000; loop: true"></a-sphere>
+              <a-sphere radius="0.06" color="#00FFFF" position="-0.5 -0.1 -0.2" material="blending: additive" animation="property: position; to: -0.48 -0.12 -0.22; dir: alternate; dur: 1150; loop: true"></a-sphere>
+              <a-sphere radius="0.06" color="#00FFFF" position="-0.1 0.1 0.1" material="blending: additive" animation="property: position; to: -0.12 0.12 0.08; dir: alternate; dur: 700; loop: true"></a-sphere>
             </a-entity>
           </a-entity>
         </a-entity>
-        
+      </a-marker>
+      
+      <!-- Новий маркер (Збільшена в 3 рази) -->
+      <a-marker type="pattern" url="./pattern-thomson-new.patt">
+        <a-entity scale="3 3 3" position="0 1.5 0">
+          <a-entity animation="property: rotation; to: 0 360 360; loop: true; dur: 25000; easing: linear">
+            <a-sphere radius="0.75" color="#FF4500" material="opacity: 0.25; transparent: true; side: double" animation="property: scale; to: 1.03 1.03 1.03; dir: alternate; dur: 2000; loop: true; easing: easeInOutSine"></a-sphere>
+            <a-sphere radius="0.55" color="#FF8C00" material="blending: additive; opacity: 0.4; transparent: true"></a-sphere>
+            <a-entity>
+              <a-sphere radius="0.06" color="#00FFFF" position="0.4 0.3 0.2" material="blending: additive" animation="property: position; to: 0.42 0.28 0.22; dir: alternate; dur: 800; loop: true"></a-sphere>
+              <a-sphere radius="0.06" color="#00FFFF" position="-0.4 0.1 0.4" material="blending: additive" animation="property: position; to: -0.38 0.12 0.42; dir: alternate; dur: 950; loop: true"></a-sphere>
+              <a-sphere radius="0.06" color="#00FFFF" position="0.1 -0.5 0.3" material="blending: additive" animation="property: position; to: 0.12 -0.48 0.28; dir: alternate; dur: 1100; loop: true"></a-sphere>
+              <a-sphere radius="0.06" color="#00FFFF" position="-0.3 -0.3 -0.4" material="blending: additive" animation="property: position; to: -0.32 -0.28 -0.38; dir: alternate; dur: 850; loop: true"></a-sphere>
+              <a-sphere radius="0.06" color="#00FFFF" position="0.3 0.1 -0.5" material="blending: additive" animation="property: position; to: 0.28 0.12 -0.52; dir: alternate; dur: 1050; loop: true"></a-sphere>
+              <a-sphere radius="0.06" color="#00FFFF" position="-0.2 0.5 -0.1" material="blending: additive" animation="property: position; to: -0.18 0.52 -0.08; dir: alternate; dur: 900; loop: true"></a-sphere>
+              <a-sphere radius="0.06" color="#00FFFF" position="0.0 0.0 0.6" material="blending: additive" animation="property: position; to: 0.02 -0.02 0.58; dir: alternate; dur: 1200; loop: true"></a-sphere>
+              <a-sphere radius="0.06" color="#00FFFF" position="0.1 0.4 0.4" material="blending: additive" animation="property: position; to: 0.08 0.42 0.42; dir: alternate; dur: 1000; loop: true"></a-sphere>
+              <a-sphere radius="0.06" color="#00FFFF" position="-0.5 -0.1 -0.2" material="blending: additive" animation="property: position; to: -0.48 -0.12 -0.22; dir: alternate; dur: 1150; loop: true"></a-sphere>
+              <a-sphere radius="0.06" color="#00FFFF" position="-0.1 0.1 0.1" material="blending: additive" animation="property: position; to: -0.12 0.12 0.08; dir: alternate; dur: 700; loop: true"></a-sphere>
+            </a-entity>
+          </a-entity>
+        </a-entity>
       </a-marker>
 
+
       <!-- ========================================== -->
-      <!-- 3. МОДЕЛЬ РЕЗЕРФОРДА (1911) -->
+      <!-- 3. МОДЕЛЬ РЕЗЕРФОРДА (1911)                -->
       <!-- ========================================== -->
+      
+      <!-- Старий маркер (Звичайний розмір) -->
       <a-marker type="pattern" url="./pattern-rutherford.patt">
-        
-        <!-- Масштабування у 3 рази -->
-        <a-entity scale="3 3 3" position="0 1.5 0">
-          
+        <a-entity position="0 0.6 0">
           <a-entity>
             <a-sphere position="0 0 0" radius="0.15" color="#FF4500"></a-sphere>
             <a-sphere position="0.05 0.05 0" radius="0.1" color="#DC143C"></a-sphere>
             <a-sphere position="-0.05 -0.05 0" radius="0.1" color="#DC143C"></a-sphere>
           </a-entity>
-
           <a-entity rotation="0 0 0">
             <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 3000; easing: linear">
               <a-ring radius-inner="0.68" radius-outer="0.7" color="#555555" rotation="90 0 0" side="double"></a-ring>
               <a-sphere position="0.7 0 0" radius="0.08" color="#1E90FF"></a-sphere>
             </a-entity>
           </a-entity>
-
           <a-entity rotation="30 0 0">
             <a-entity animation="property: rotation; to: 0 -360 0; loop: true; dur: 3200; easing: linear">
               <a-ring radius-inner="0.68" radius-outer="0.7" color="#555555" rotation="90 0 0" side="double"></a-ring>
               <a-sphere position="0.7 0 0" radius="0.08" color="#1E90FF"></a-sphere>
             </a-entity>
           </a-entity>
-
           <a-entity rotation="60 0 0">
             <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 3800; easing: linear">
               <a-ring radius-inner="0.68" radius-outer="0.7" color="#555555" rotation="90 0 0" side="double"></a-ring>
               <a-sphere position="0.7 0 0" radius="0.08" color="#1E90FF"></a-sphere>
             </a-entity>
           </a-entity>
-
           <a-entity rotation="90 0 0">
             <a-entity animation="property: rotation; to: 0 -360 0; loop: true; dur: 3500; easing: linear">
               <a-ring radius-inner="0.68" radius-outer="0.7" color="#555555" rotation="90 0 0" side="double"></a-ring>
               <a-sphere position="0.7 0 0" radius="0.08" color="#1E90FF"></a-sphere>
             </a-entity>
           </a-entity>
-
           <a-entity rotation="120 0 0">
             <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 4000; easing: linear">
               <a-ring radius-inner="0.68" radius-outer="0.7" color="#555555" rotation="90 0 0" side="double"></a-ring>
               <a-sphere position="0.7 0 0" radius="0.08" color="#1E90FF"></a-sphere>
             </a-entity>
           </a-entity>
-
           <a-entity rotation="150 0 0">
             <a-entity animation="property: rotation; to: 0 -360 0; loop: true; dur: 3100; easing: linear">
               <a-ring radius-inner="0.68" radius-outer="0.7" color="#555555" rotation="90 0 0" side="double"></a-ring>
               <a-sphere position="0.7 0 0" radius="0.08" color="#1E90FF"></a-sphere>
             </a-entity>
           </a-entity>
-
         </a-entity>
       </a-marker>
+      
+      <!-- Новий маркер (Збільшена в 3 рази) -->
+      <a-marker type="pattern" url="./pattern-rutherford-new.patt">
+        <a-entity scale="3 3 3" position="0 1.5 0">
+          <a-entity>
+            <a-sphere position="0 0 0" radius="0.15" color="#FF4500"></a-sphere>
+            <a-sphere position="0.05 0.05 0" radius="0.1" color="#DC143C"></a-sphere>
+            <a-sphere position="-0.05 -0.05 0" radius="0.1" color="#DC143C"></a-sphere>
+          </a-entity>
+          <a-entity rotation="0 0 0">
+            <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 3000; easing: linear">
+              <a-ring radius-inner="0.68" radius-outer="0.7" color="#555555" rotation="90 0 0" side="double"></a-ring>
+              <a-sphere position="0.7 0 0" radius="0.08" color="#1E90FF"></a-sphere>
+            </a-entity>
+          </a-entity>
+          <a-entity rotation="30 0 0">
+            <a-entity animation="property: rotation; to: 0 -360 0; loop: true; dur: 3200; easing: linear">
+              <a-ring radius-inner="0.68" radius-outer="0.7" color="#555555" rotation="90 0 0" side="double"></a-ring>
+              <a-sphere position="0.7 0 0" radius="0.08" color="#1E90FF"></a-sphere>
+            </a-entity>
+          </a-entity>
+          <a-entity rotation="60 0 0">
+            <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 3800; easing: linear">
+              <a-ring radius-inner="0.68" radius-outer="0.7" color="#555555" rotation="90 0 0" side="double"></a-ring>
+              <a-sphere position="0.7 0 0" radius="0.08" color="#1E90FF"></a-sphere>
+            </a-entity>
+          </a-entity>
+          <a-entity rotation="90 0 0">
+            <a-entity animation="property: rotation; to: 0 -360 0; loop: true; dur: 3500; easing: linear">
+              <a-ring radius-inner="0.68" radius-outer="0.7" color="#555555" rotation="90 0 0" side="double"></a-ring>
+              <a-sphere position="0.7 0 0" radius="0.08" color="#1E90FF"></a-sphere>
+            </a-entity>
+          </a-entity>
+          <a-entity rotation="120 0 0">
+            <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 4000; easing: linear">
+              <a-ring radius-inner="0.68" radius-outer="0.7" color="#555555" rotation="90 0 0" side="double"></a-ring>
+              <a-sphere position="0.7 0 0" radius="0.08" color="#1E90FF"></a-sphere>
+            </a-entity>
+          </a-entity>
+          <a-entity rotation="150 0 0">
+            <a-entity animation="property: rotation; to: 0 -360 0; loop: true; dur: 3100; easing: linear">
+              <a-ring radius-inner="0.68" radius-outer="0.7" color="#555555" rotation="90 0 0" side="double"></a-ring>
+              <a-sphere position="0.7 0 0" radius="0.08" color="#1E90FF"></a-sphere>
+            </a-entity>
+          </a-entity>
+        </a-entity>
+      </a-marker>
+
 
       <!-- ========================================== -->
       <!-- 4. МОДЕЛЬ БОРА (1913)                      -->
       <!-- ========================================== -->
+      
+      <!-- Старий маркер (Звичайний розмір) -->
       <a-marker type="pattern" url="./pattern-bohr.patt">
-        
-        <!-- Масштабування у 3 рази -->
-        <a-entity scale="3 3 3" position="0 1.5 0" rotation="35 0 0">
-          
+        <a-entity position="0 0.6 0" rotation="35 0 0">
           <a-entity>
             <a-sphere position="0 0 0" radius="0.12" color="#FF4500"></a-sphere>
             <a-sphere position="0.04 0.04 0" radius="0.08" color="#DC143C"></a-sphere>
             <a-sphere position="-0.04 -0.04 0" radius="0.08" color="#DC143C"></a-sphere>
           </a-entity>
-          
           <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 2500; easing: linear">
             <a-ring radius-inner="0.38" radius-outer="0.4" color="#FFFFFF" opacity="0.6" rotation="90 0 0" side="double"></a-ring>
             <a-sphere position="0.4 0 0" radius="0.06" color="#00FF00"></a-sphere>
             <a-sphere position="-0.4 0 0" radius="0.06" color="#00FF00"></a-sphere>
           </a-entity>
-          
           <a-entity animation="property: rotation; to: 0 -360 0; loop: true; dur: 4500; easing: linear">
             <a-ring radius-inner="0.68" radius-outer="0.7" color="#FFFFFF" opacity="0.6" rotation="90 0 0" side="double"></a-ring>
             <a-sphere position="0.7 0 0" radius="0.06" color="#00FF00"></a-sphere>
@@ -148,29 +200,58 @@
             <a-sphere position="0 0 0.7" radius="0.06" color="#00FF00"></a-sphere>
             <a-sphere position="0 0 -0.7" radius="0.06" color="#00FF00"></a-sphere>
           </a-entity>
-          
           <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 6000; easing: linear">
             <a-ring radius-inner="0.98" radius-outer="1.0" color="#FFFFFF" opacity="0.6" rotation="90 0 0" side="double"></a-ring>
             <a-sphere position="1.0 0 0" radius="0.06" color="#00FF00"></a-sphere>
             <a-sphere position="-1.0 0 0" radius="0.06" color="#00FF00"></a-sphere>
           </a-entity>
-          
           <a-sphere radius="0.04" color="#FFD700"
                     animation="property: position; from: 0.7 0 0; to: 2 0 1.5; loop: true; dur: 2000"
                     animation__fade="property: opacity; from: 1; to: 0; loop: true; dur: 2000">
           </a-sphere>
-          
         </a-entity>
       </a-marker>
+      
+      <!-- Новий маркер (Збільшена в 3 рази) -->
+      <a-marker type="pattern" url="./pattern-bohr-new.patt">
+        <a-entity scale="3 3 3" position="0 1.5 0" rotation="35 0 0">
+          <a-entity>
+            <a-sphere position="0 0 0" radius="0.12" color="#FF4500"></a-sphere>
+            <a-sphere position="0.04 0.04 0" radius="0.08" color="#DC143C"></a-sphere>
+            <a-sphere position="-0.04 -0.04 0" radius="0.08" color="#DC143C"></a-sphere>
+          </a-entity>
+          <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 2500; easing: linear">
+            <a-ring radius-inner="0.38" radius-outer="0.4" color="#FFFFFF" opacity="0.6" rotation="90 0 0" side="double"></a-ring>
+            <a-sphere position="0.4 0 0" radius="0.06" color="#00FF00"></a-sphere>
+            <a-sphere position="-0.4 0 0" radius="0.06" color="#00FF00"></a-sphere>
+          </a-entity>
+          <a-entity animation="property: rotation; to: 0 -360 0; loop: true; dur: 4500; easing: linear">
+            <a-ring radius-inner="0.68" radius-outer="0.7" color="#FFFFFF" opacity="0.6" rotation="90 0 0" side="double"></a-ring>
+            <a-sphere position="0.7 0 0" radius="0.06" color="#00FF00"></a-sphere>
+            <a-sphere position="-0.7 0 0" radius="0.06" color="#00FF00"></a-sphere>
+            <a-sphere position="0 0 0.7" radius="0.06" color="#00FF00"></a-sphere>
+            <a-sphere position="0 0 -0.7" radius="0.06" color="#00FF00"></a-sphere>
+          </a-entity>
+          <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 6000; easing: linear">
+            <a-ring radius-inner="0.98" radius-outer="1.0" color="#FFFFFF" opacity="0.6" rotation="90 0 0" side="double"></a-ring>
+            <a-sphere position="1.0 0 0" radius="0.06" color="#00FF00"></a-sphere>
+            <a-sphere position="-1.0 0 0" radius="0.06" color="#00FF00"></a-sphere>
+          </a-entity>
+          <a-sphere radius="0.04" color="#FFD700"
+                    animation="property: position; from: 0.7 0 0; to: 2 0 1.5; loop: true; dur: 2000"
+                    animation__fade="property: opacity; from: 1; to: 0; loop: true; dur: 2000">
+          </a-sphere>
+        </a-entity>
+      </a-marker>
+
 
       <!-- ========================================== -->
       <!-- 5. МОДЕЛЬ ШРЕДІНГЕРА (1926)                -->
       <!-- ========================================== -->
+      
+      <!-- Старий маркер (Звичайний розмір) -->
       <a-marker type="pattern" url="./pattern-schrodinger.patt">
-        
-        <!-- Масштабування у 3 рази -->
-        <a-entity scale="3 3 3" position="0 1.5 0">
-          
+        <a-entity position="0 0.7 0">
           <a-entity animation="property: position; to: 0 0.01 0; dir: alternate; dur: 150; loop: true; easing: easeInOutSine">
             <a-sphere position="0 0 0" radius="0.07" color="#FF3300"></a-sphere>
             <a-sphere position="0.05 0.04 0.02" radius="0.05" color="#DC143C"></a-sphere>
@@ -180,46 +261,68 @@
             <a-sphere position="0 0.06 -0.02" radius="0.05" color="#696969"></a-sphere>
             <a-sphere position="-0.02 0.01 0.06" radius="0.05" color="#DC143C"></a-sphere>
           </a-entity>
-
           <a-entity animation="property: rotation; to: 360 720 180; loop: true; dur: 25000; easing: linear">
-            
-            <a-sphere radius="0.25" color="#00FFFF" material="blending: additive; opacity: 0.25; transparent: true; side: double"
-                      animation="property: scale; to: 1.05 1.05 1.05; dir: alternate; dur: 800; loop: true"></a-sphere>
-            <a-sphere radius="0.45" color="#0088FF" material="blending: additive; opacity: 0.15; transparent: true; side: double"
-                      animation="property: scale; to: 1.1 1.1 1.1; dir: alternate; dur: 1500; loop: true"></a-sphere>
-            <a-sphere radius="0.7" color="#0011FF" material="blending: additive; opacity: 0.05; transparent: true; side: double"
-                      animation="property: scale; to: 1.15 1.15 1.15; dir: alternate; dur: 3000; loop: true"></a-sphere>
-
+            <a-sphere radius="0.25" color="#00FFFF" material="blending: additive; opacity: 0.25; transparent: true; side: double" animation="property: scale; to: 1.05 1.05 1.05; dir: alternate; dur: 800; loop: true"></a-sphere>
+            <a-sphere radius="0.45" color="#0088FF" material="blending: additive; opacity: 0.15; transparent: true; side: double" animation="property: scale; to: 1.1 1.1 1.1; dir: alternate; dur: 1500; loop: true"></a-sphere>
+            <a-sphere radius="0.7" color="#0011FF" material="blending: additive; opacity: 0.05; transparent: true; side: double" animation="property: scale; to: 1.15 1.15 1.15; dir: alternate; dur: 3000; loop: true"></a-sphere>
             <a-entity animation="property: scale; to: 1.1 1 1; dir: alternate; dur: 1200; loop: true">
               <a-sphere position="0.35 0 0" radius="0.18" scale="1.6 1 1" color="#FF00FF" material="blending: additive; opacity: 0.15; transparent: true"></a-sphere>
               <a-sphere position="-0.35 0 0" radius="0.18" scale="1.6 1 1" color="#FF00FF" material="blending: additive; opacity: 0.15; transparent: true"></a-sphere>
             </a-entity>
-
             <a-entity animation="property: scale; to: 1 1.1 1; dir: alternate; dur: 1400; loop: true">
               <a-sphere position="0 0.35 0" radius="0.18" scale="1 1.6 1" color="#AA00FF" material="blending: additive; opacity: 0.15; transparent: true"></a-sphere>
               <a-sphere position="0 -0.35 0" radius="0.18" scale="1 1.6 1" color="#AA00FF" material="blending: additive; opacity: 0.15; transparent: true"></a-sphere>
             </a-entity>
-
             <a-entity animation="property: scale; to: 1 1 1.1; dir: alternate; dur: 1600; loop: true">
               <a-sphere position="0 0 0.35" radius="0.18" scale="1 1 1.6" color="#7700FF" material="blending: additive; opacity: 0.15; transparent: true"></a-sphere>
               <a-sphere position="0 0 -0.35" radius="0.18" scale="1 1 1.6" color="#7700FF" material="blending: additive; opacity: 0.15; transparent: true"></a-sphere>
             </a-entity>
-            
           </a-entity>
-
           <a-entity>
-            <a-sphere radius="0.015" color="#FFFFFF" material="blending: additive" 
-                      animation="property: position; from: 0.2 0.3 0.1; to: -0.3 -0.2 -0.4; dir: alternate; dur: 400; loop: true; easing: easeInOutElastic"></a-sphere>
-            <a-sphere radius="0.015" color="#FFFFFF" material="blending: additive" 
-                      animation="property: position; from: -0.4 0.1 -0.2; to: 0.1 -0.5 0.3; dir: alternate; dur: 550; loop: true; easing: easeInOutElastic"></a-sphere>
-            <a-sphere radius="0.015" color="#FFFFFF" material="blending: additive" 
-                      animation="property: position; from: 0.1 -0.1 0.5; to: -0.2 0.4 -0.1; dir: alternate; dur: 450; loop: true; easing: easeInOutElastic"></a-sphere>
+            <a-sphere radius="0.015" color="#FFFFFF" material="blending: additive" animation="property: position; from: 0.2 0.3 0.1; to: -0.3 -0.2 -0.4; dir: alternate; dur: 400; loop: true; easing: easeInOutElastic"></a-sphere>
+            <a-sphere radius="0.015" color="#FFFFFF" material="blending: additive" animation="property: position; from: -0.4 0.1 -0.2; to: 0.1 -0.5 0.3; dir: alternate; dur: 550; loop: true; easing: easeInOutElastic"></a-sphere>
+            <a-sphere radius="0.015" color="#FFFFFF" material="blending: additive" animation="property: position; from: 0.1 -0.1 0.5; to: -0.2 0.4 -0.1; dir: alternate; dur: 450; loop: true; easing: easeInOutElastic"></a-sphere>
           </a-entity>
-          
         </a-entity>
-        
       </a-marker>
       
+      <!-- Новий маркер (Збільшена в 3 рази) -->
+      <a-marker type="pattern" url="./pattern-schrodinger-new.patt">
+        <a-entity scale="3 3 3" position="0 1.5 0">
+          <a-entity animation="property: position; to: 0 0.01 0; dir: alternate; dur: 150; loop: true; easing: easeInOutSine">
+            <a-sphere position="0 0 0" radius="0.07" color="#FF3300"></a-sphere>
+            <a-sphere position="0.05 0.04 0.02" radius="0.05" color="#DC143C"></a-sphere>
+            <a-sphere position="-0.04 -0.05 0.03" radius="0.05" color="#696969"></a-sphere>
+            <a-sphere position="0.04 -0.04 -0.04" radius="0.05" color="#DC143C"></a-sphere>
+            <a-sphere position="-0.05 0.03 -0.03" radius="0.05" color="#696969"></a-sphere>
+            <a-sphere position="0 0.06 -0.02" radius="0.05" color="#696969"></a-sphere>
+            <a-sphere position="-0.02 0.01 0.06" radius="0.05" color="#DC143C"></a-sphere>
+          </a-entity>
+          <a-entity animation="property: rotation; to: 360 720 180; loop: true; dur: 25000; easing: linear">
+            <a-sphere radius="0.25" color="#00FFFF" material="blending: additive; opacity: 0.25; transparent: true; side: double" animation="property: scale; to: 1.05 1.05 1.05; dir: alternate; dur: 800; loop: true"></a-sphere>
+            <a-sphere radius="0.45" color="#0088FF" material="blending: additive; opacity: 0.15; transparent: true; side: double" animation="property: scale; to: 1.1 1.1 1.1; dir: alternate; dur: 1500; loop: true"></a-sphere>
+            <a-sphere radius="0.7" color="#0011FF" material="blending: additive; opacity: 0.05; transparent: true; side: double" animation="property: scale; to: 1.15 1.15 1.15; dir: alternate; dur: 3000; loop: true"></a-sphere>
+            <a-entity animation="property: scale; to: 1.1 1 1; dir: alternate; dur: 1200; loop: true">
+              <a-sphere position="0.35 0 0" radius="0.18" scale="1.6 1 1" color="#FF00FF" material="blending: additive; opacity: 0.15; transparent: true"></a-sphere>
+              <a-sphere position="-0.35 0 0" radius="0.18" scale="1.6 1 1" color="#FF00FF" material="blending: additive; opacity: 0.15; transparent: true"></a-sphere>
+            </a-entity>
+            <a-entity animation="property: scale; to: 1 1.1 1; dir: alternate; dur: 1400; loop: true">
+              <a-sphere position="0 0.35 0" radius="0.18" scale="1 1.6 1" color="#AA00FF" material="blending: additive; opacity: 0.15; transparent: true"></a-sphere>
+              <a-sphere position="0 -0.35 0" radius="0.18" scale="1 1.6 1" color="#AA00FF" material="blending: additive; opacity: 0.15; transparent: true"></a-sphere>
+            </a-entity>
+            <a-entity animation="property: scale; to: 1 1 1.1; dir: alternate; dur: 1600; loop: true">
+              <a-sphere position="0 0 0.35" radius="0.18" scale="1 1 1.6" color="#7700FF" material="blending: additive; opacity: 0.15; transparent: true"></a-sphere>
+              <a-sphere position="0 0 -0.35" radius="0.18" scale="1 1 1.6" color="#7700FF" material="blending: additive; opacity: 0.15; transparent: true"></a-sphere>
+            </a-entity>
+          </a-entity>
+          <a-entity>
+            <a-sphere radius="0.015" color="#FFFFFF" material="blending: additive" animation="property: position; from: 0.2 0.3 0.1; to: -0.3 -0.2 -0.4; dir: alternate; dur: 400; loop: true; easing: easeInOutElastic"></a-sphere>
+            <a-sphere radius="0.015" color="#FFFFFF" material="blending: additive" animation="property: position; from: -0.4 0.1 -0.2; to: 0.1 -0.5 0.3; dir: alternate; dur: 550; loop: true; easing: easeInOutElastic"></a-sphere>
+            <a-sphere radius="0.015" color="#FFFFFF" material="blending: additive" animation="property: position; from: 0.1 -0.1 0.5; to: -0.2 0.4 -0.1; dir: alternate; dur: 450; loop: true; easing: easeInOutElastic"></a-sphere>
+          </a-entity>
+        </a-entity>
+      </a-marker>
+
       <!-- Камера -->
       <a-entity camera></a-entity>
     </a-scene>
