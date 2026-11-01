@@ -6,11 +6,31 @@
     <title>Еволюція моделей атома (AR)</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@master/aframe/build/aframe-ar.js"></script>
+    <!-- Скрипт для глобального збільшення всіх моделей -->
+    <script>
+      AFRAME.registerComponent('scale-all-models', {
+        init: function () {
+          let markers = this.el.querySelectorAll('a-marker');
+          markers.forEach(marker => {
+            // Створюємо контейнер зі збільшенням у 3 рази (X, Y, Z)
+            let scaleWrapper = document.createElement('a-entity');
+            scaleWrapper.setAttribute('scale', '3 3 3'); 
+            
+            // Безпечно переносимо всі наявні 3D-об'єкти у новий збільшений контейнер
+            Array.from(marker.children).forEach(child => {
+              scaleWrapper.appendChild(child);
+            });
+            
+            // Додаємо збільшений контейнер назад у маркер
+            marker.appendChild(scaleWrapper);
+          });
+        }
+      });
+    </script>
   </head>
   <body style="margin: 0px; overflow: hidden;">
     
-    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false; patternRatio: 0.90;">
-      
+    <a-scene scale-all-models embedded arjs="sourceType: webcam; debugUIEnabled: false; patternRatio: 0.90;">
       <!-- ========================================== -->
       <!-- 1. МОДЕЛЬ ДАЛЬТОНА (1803)                  -->
       <!-- ========================================== -->
