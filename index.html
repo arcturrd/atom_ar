@@ -91,28 +91,53 @@
       </a-marker>
 
       <!-- ========================================== -->
-      <!-- 2. МОДЕЛЬ ТОМСОНА (1904)                   -->
+      <!-- 2. МАРКЕР ТОМСОНА (Портрет) - Живий Щоденник -->
       <!-- ========================================== -->
-      
-      <!-- Старий маркер Томсона -->
       <a-marker type="pattern" url="./pattern-thomson.patt">
-        <a-entity position="0 0.7 0">
-          <a-entity animation="property: rotation; to: 0 360 360; loop: true; dur: 25000; easing: linear">
-            <a-sphere radius="0.75" color="#FF4500" material="opacity: 0.25; transparent: true; side: double" animation="property: scale; to: 1.03 1.03 1.03; dir: alternate; dur: 2000; loop: true; easing: easeInOutSine"></a-sphere>
-            <a-sphere radius="0.55" color="#FF8C00" material="blending: additive; opacity: 0.4; transparent: true"></a-sphere>
+        
+        <!-- Загальний контейнер -->
+        <a-entity position="0 0.5 0" scale="0.8 0.8 0.8">
+          
+          <!-- ВІНТАЖНИЙ П'ЄДЕСТАЛ (Червоне дерево та мідь) -->
+          <a-entity position="0 -0.5 0">
+            <!-- Дерев'яна основа -->
+            <a-cylinder position="0 -1 0" radius="0.6" height="0.1" color="#3e2723" roughness="0.9"></a-cylinder>
+            <a-cylinder position="0 -0.9 0" radius="0.5" height="0.1" color="#4e342e" roughness="0.9"></a-cylinder>
+            
+            <!-- Мідна стійка -->
+            <a-cylinder position="0 -0.4 0" radius="0.08" height="1.0" color="#b87333" metalness="0.8" roughness="0.3"></a-cylinder>
+            
+            <!-- Мідна чаша-тримач -->
+            <a-cylinder position="0 0.1 0" radius="0.4" height="0.05" color="#b87333" metalness="0.8" roughness="0.3"></a-cylinder>
+            <a-torus position="0 0.15 0" radius="0.38" radius-tubular="0.02" rotation="90 0 0" color="#b87333" metalness="0.8"></a-torus>
+          </a-entity>
+
+          <!-- АТОМ ТОМСОНА ("Пудинг з родзинками" на п'єдесталі) -->
+          <!-- Сфера повільно обертається над підставкою -->
+          <a-entity position="0 0.7 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 15000; easing: linear">
+            
+            <!-- Позитивна сфера (напівпрозоре оранжево-червоне "желе") -->
+            <a-sphere radius="0.7" color="#ff4500" material="opacity: 0.35; transparent: true; side: double"></a-sphere>
+            
+            <!-- Внутрішнє світіння ядра (ілюзія об'єму) -->
+            <a-sphere radius="0.45" color="#ff8c00" material="blending: additive; opacity: 0.5; transparent: true"></a-sphere>
+
+            <!-- Електрони, які швидко вібрують всередині сфери -->
             <a-entity>
-              <a-sphere radius="0.06" color="#00FFFF" position="0.4 0.3 0.2" material="blending: additive" animation="property: position; to: 0.42 0.28 0.22; dir: alternate; dur: 800; loop: true"></a-sphere>
-              <a-sphere radius="0.06" color="#00FFFF" position="-0.4 0.1 0.4" material="blending: additive" animation="property: position; to: -0.38 0.12 0.42; dir: alternate; dur: 950; loop: true"></a-sphere>
-              <a-sphere radius="0.06" color="#00FFFF" position="0.1 -0.5 0.3" material="blending: additive" animation="property: position; to: 0.12 -0.48 0.28; dir: alternate; dur: 1100; loop: true"></a-sphere>
-              <a-sphere radius="0.06" color="#00FFFF" position="-0.3 -0.3 -0.4" material="blending: additive" animation="property: position; to: -0.32 -0.28 -0.38; dir: alternate; dur: 850; loop: true"></a-sphere>
-              <a-sphere radius="0.06" color="#00FFFF" position="0.3 0.1 -0.5" material="blending: additive" animation="property: position; to: 0.28 0.12 -0.52; dir: alternate; dur: 1050; loop: true"></a-sphere>
-              <a-sphere radius="0.06" color="#00FFFF" position="-0.2 0.5 -0.1" material="blending: additive" animation="property: position; to: -0.18 0.52 -0.08; dir: alternate; dur: 900; loop: true"></a-sphere>
-              <a-sphere radius="0.06" color="#00FFFF" position="0.0 0.0 0.6" material="blending: additive" animation="property: position; to: 0.02 -0.02 0.58; dir: alternate; dur: 1200; loop: true"></a-sphere>
-              <a-sphere radius="0.06" color="#00FFFF" position="0.1 0.4 0.4" material="blending: additive" animation="property: position; to: 0.08 0.42 0.42; dir: alternate; dur: 1000; loop: true"></a-sphere>
-              <a-sphere radius="0.06" color="#00FFFF" position="-0.5 -0.1 -0.2" material="blending: additive" animation="property: position; to: -0.48 -0.12 -0.22; dir: alternate; dur: 1150; loop: true"></a-sphere>
-              <a-sphere radius="0.06" color="#00FFFF" position="-0.1 0.1 0.1" material="blending: additive" animation="property: position; to: -0.12 0.12 0.08; dir: alternate; dur: 700; loop: true"></a-sphere>
+               <a-sphere radius="0.08" color="#00ffff" position="0.4 0.3 0.2" material="blending: additive" animation="property: position; to: 0.42 0.28 0.22; dir: alternate; dur: 300; loop: true"></a-sphere>
+               <a-sphere radius="0.08" color="#00ffff" position="-0.4 0.1 0.4" material="blending: additive" animation="property: position; to: -0.38 0.12 0.42; dir: alternate; dur: 450; loop: true"></a-sphere>
+               <a-sphere radius="0.08" color="#00ffff" position="0.1 -0.5 0.3" material="blending: additive" animation="property: position; to: 0.12 -0.48 0.28; dir: alternate; dur: 350; loop: true"></a-sphere>
+               <a-sphere radius="0.08" color="#00ffff" position="-0.3 -0.3 -0.4" material="blending: additive" animation="property: position; to: -0.32 -0.28 -0.38; dir: alternate; dur: 400; loop: true"></a-sphere>
+               <a-sphere radius="0.08" color="#00ffff" position="0.3 0.1 -0.5" material="blending: additive" animation="property: position; to: 0.28 0.12 -0.52; dir: alternate; dur: 320; loop: true"></a-sphere>
+               <a-sphere radius="0.08" color="#00ffff" position="-0.2 0.4 -0.1" material="blending: additive" animation="property: position; to: -0.18 0.42 -0.08; dir: alternate; dur: 380; loop: true"></a-sphere>
+               <a-sphere radius="0.08" color="#00ffff" position="0.0 0.0 0.5" material="blending: additive" animation="property: position; to: 0.02 -0.02 0.48; dir: alternate; dur: 420; loop: true"></a-sphere>
+               <a-sphere radius="0.08" color="#00ffff" position="0.2 -0.2 0.4" material="blending: additive" animation="property: position; to: 0.22 -0.18 0.38; dir: alternate; dur: 390; loop: true"></a-sphere>
             </a-entity>
           </a-entity>
+
+          <!-- Вінтажна підкладка (аркуш паперу) під об'єктом -->
+          <a-plane position="0 -1.4 0" rotation="-90 0 0" width="3" height="3" color="#F5DEB3" material="opacity: 0.3; transparent: true"></a-plane>
+
         </a-entity>
       </a-marker>
       
@@ -161,53 +186,61 @@
       </a-marker>
       
       <!-- ========================================== -->
-      <!-- 3. МОДЕЛЬ РЕЗЕРФОРДА (1911)                -->
+      <!-- 3. МАРКЕР РЕЗЕРФОРДА (Портрет) - Живий Щоденник -->
       <!-- ========================================== -->
-      
-      <!-- Старий маркер Резерфорда -->
       <a-marker type="pattern" url="./pattern-rutherford.patt">
-        <a-entity position="0 0.6 0">
+        
+        <!-- Загальний контейнер -->
+        <a-entity position="0 0.5 0" scale="0.8 0.8 0.8">
+          
+          <!-- ВІНТАЖНА ОСНОВА (Дерев'яний стіл) -->
+          <a-cylinder position="0 -0.5 0" radius="1.2" height="0.1" color="#3e2723" roughness="0.9"></a-cylinder>
+          
+          <!-- СВИНЦЕВИЙ ВИПРОМІНЮВАЧ (Джерело альфа-частинок) -->
+          <a-entity position="-0.8 0.2 0">
+             <!-- Свинцевий корпус -->
+             <a-cylinder radius="0.2" height="0.4" rotation="0 0 90" color="#4F4F4F" metalness="0.5" roughness="0.7"></a-cylinder>
+             <!-- Мідний носик (коліматор) -->
+             <a-cylinder position="0.2 0 0" radius="0.05" height="0.1" rotation="0 0 90" color="#b87333" metalness="0.8"></a-cylinder>
+          </a-entity>
+          
+          <!-- ЗОЛОТА ФОЛЬГА В РАМЦІ -->
+          <a-entity position="0 0.2 0">
+            <!-- Мідна стійка -->
+            <a-cylinder position="0 -0.35 0" radius="0.02" height="0.7" color="#b87333" metalness="0.8"></a-cylinder>
+            <a-box position="0 -0.7 0" width="0.3" height="0.05" depth="0.2" color="#4e342e"></a-box>
+            <!-- Сама золота фольга (напівпрозора, глянцева) -->
+            <a-plane position="0 0 0" rotation="0 -90 0" width="0.6" height="0.8" color="#FFD700" metalness="0.9" roughness="0.2" material="side: double; opacity: 0.8; transparent: true"></a-plane>
+          </a-entity>
+
+          <!-- АНІМАЦІЯ АЛЬФА-ЧАСТИНОК -->
           <a-entity>
-            <a-sphere position="0 0 0" radius="0.15" color="#FF4500"></a-sphere>
-            <a-sphere position="0.05 0.05 0" radius="0.1" color="#DC143C"></a-sphere>
-            <a-sphere position="-0.05 -0.05 0" radius="0.1" color="#DC143C"></a-sphere>
+            <!-- Частинка 1: Пролітає прямо наскрізь (як більшість частинок в експерименті) -->
+            <a-sphere radius="0.02" color="#FF3300" material="blending: additive" 
+                      animation="property: position; from: -0.6 0.2 0; to: 1.0 0.2 0; dur: 1000; loop: true; easing: linear"></a-sphere>
+            
+            <a-sphere radius="0.02" color="#FF3300" material="blending: additive" 
+                      animation="property: position; from: -0.6 0.2 0.05; to: 1.0 0.2 0.05; dur: 900; loop: true; easing: linear; delay: 200"></a-sphere>
+            
+            <!-- Частинка 2: Відбивається вгору і вбік (зіткнення з ядром) -->
+            <a-sphere radius="0.02" color="#FF3300" material="blending: additive" 
+                      animation="property: position; from: -0.6 0.2 0.02; to: 0.4 0.8 0.3; dur: 1200; loop: true; easing: linear; delay: 100"
+                      animation__fade="property: opacity; from: 1; to: 0; dur: 1200; loop: true"></a-sphere>
+
+            <!-- Частинка 3: Сильно відбивається вниз (рикошет) -->
+            <a-sphere radius="0.02" color="#FF3300" material="blending: additive" 
+                      animation="property: position; from: -0.6 0.2 -0.05; to: 0.2 -0.3 -0.6; dur: 1100; loop: true; easing: linear; delay: 400"
+                      animation__fade="property: opacity; from: 1; to: 0; dur: 1100; loop: true"></a-sphere>
+            
+            <!-- Частинка 4: Відбивається майже назад до джерела (той самий шокуючий результат) -->
+            <a-sphere radius="0.02" color="#FF3300" material="blending: additive" 
+                      animation="property: position; from: -0.6 0.2 -0.02; to: -0.3 0.6 0.4; dur: 1500; loop: true; easing: linear; delay: 600"
+                      animation__fade="property: opacity; from: 1; to: 0; dur: 1500; loop: true"></a-sphere>
           </a-entity>
-          <a-entity rotation="0 0 0">
-            <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 3000; easing: linear">
-              <a-ring radius-inner="0.68" radius-outer="0.7" color="#555555" rotation="90 0 0" side="double"></a-ring>
-              <a-sphere position="0.7 0 0" radius="0.08" color="#1E90FF"></a-sphere>
-            </a-entity>
-          </a-entity>
-          <a-entity rotation="30 0 0">
-            <a-entity animation="property: rotation; to: 0 -360 0; loop: true; dur: 3200; easing: linear">
-              <a-ring radius-inner="0.68" radius-outer="0.7" color="#555555" rotation="90 0 0" side="double"></a-ring>
-              <a-sphere position="0.7 0 0" radius="0.08" color="#1E90FF"></a-sphere>
-            </a-entity>
-          </a-entity>
-          <a-entity rotation="60 0 0">
-            <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 3800; easing: linear">
-              <a-ring radius-inner="0.68" radius-outer="0.7" color="#555555" rotation="90 0 0" side="double"></a-ring>
-              <a-sphere position="0.7 0 0" radius="0.08" color="#1E90FF"></a-sphere>
-            </a-entity>
-          </a-entity>
-          <a-entity rotation="90 0 0">
-            <a-entity animation="property: rotation; to: 0 -360 0; loop: true; dur: 3500; easing: linear">
-              <a-ring radius-inner="0.68" radius-outer="0.7" color="#555555" rotation="90 0 0" side="double"></a-ring>
-              <a-sphere position="0.7 0 0" radius="0.08" color="#1E90FF"></a-sphere>
-            </a-entity>
-          </a-entity>
-          <a-entity rotation="120 0 0">
-            <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 4000; easing: linear">
-              <a-ring radius-inner="0.68" radius-outer="0.7" color="#555555" rotation="90 0 0" side="double"></a-ring>
-              <a-sphere position="0.7 0 0" radius="0.08" color="#1E90FF"></a-sphere>
-            </a-entity>
-          </a-entity>
-          <a-entity rotation="150 0 0">
-            <a-entity animation="property: rotation; to: 0 -360 0; loop: true; dur: 3100; easing: linear">
-              <a-ring radius-inner="0.68" radius-outer="0.7" color="#555555" rotation="90 0 0" side="double"></a-ring>
-              <a-sphere position="0.7 0 0" radius="0.08" color="#1E90FF"></a-sphere>
-            </a-entity>
-          </a-entity>
+
+          <!-- Вінтажна підкладка (аркуш паперу) під об'єктом -->
+          <a-plane position="0 -0.6 0" rotation="-90 0 0" width="3" height="3" color="#F5DEB3" material="opacity: 0.3; transparent: true"></a-plane>
+
         </a-entity>
       </a-marker>
       
@@ -306,38 +339,73 @@
       </a-marker>
 
       <!-- ========================================== -->
-      <!-- 4. МОДЕЛЬ БОРА (1913)                      -->
+      <!-- 4. МАРКЕР БОРА (Портрет) - Живий Щоденник -->
       <!-- ========================================== -->
-      
-      <!-- Старий маркер Бора -->
       <a-marker type="pattern" url="./pattern-bohr.patt">
-        <a-entity position="0 0.6 0" rotation="35 0 0">
-          <a-entity>
-            <a-sphere position="0 0 0" radius="0.12" color="#FF4500"></a-sphere>
-            <a-sphere position="0.04 0.04 0" radius="0.08" color="#DC143C"></a-sphere>
-            <a-sphere position="-0.04 -0.04 0" radius="0.08" color="#DC143C"></a-sphere>
+        
+        <!-- Загальний контейнер -->
+        <a-entity position="0 0.5 0" scale="0.8 0.8 0.8">
+          
+          <!-- ВІНТАЖНА ОСНОВА (Дерев'яний стіл) -->
+          <a-box position="0 -0.5 0" width="2.4" height="0.1" depth="0.8" color="#3e2723" roughness="0.9"></a-box>
+          
+          <!-- ВОДНЕВА ГАЗОРОЗРЯДНА ТРУБКА (Джерело світла) -->
+          <a-entity position="-0.8 0.2 0">
+            <!-- Мідні тримачі -->
+            <a-cylinder position="0 -0.35 0" radius="0.05" height="0.7" color="#b87333" metalness="0.8"></a-cylinder>
+            <a-cylinder position="0 0.4 0" radius="0.12" height="0.05" color="#704214" metalness="0.5"></a-cylinder>
+            <a-cylinder position="0 -0.4 0" radius="0.12" height="0.05" color="#704214" metalness="0.5"></a-cylinder>
+            
+            <!-- Скляна колба -->
+            <a-cylinder position="0 0 0" radius="0.1" height="0.8" color="#ffffff" material="opacity: 0.3; transparent: true"></a-cylinder>
+            
+            <!-- Сяюча плазма (Водень світиться рожево-фіолетовим) з ефектом мерехтіння -->
+            <a-cylinder position="0 0 0" radius="0.03" height="0.75" color="#ff00ff" material="blending: additive; opacity: 0.8" 
+                        animation="property: opacity; from: 0.4; to: 1; dir: alternate; dur: 80; loop: true"></a-cylinder>
           </a-entity>
-          <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 2500; easing: linear">
-            <a-ring radius-inner="0.38" radius-outer="0.4" color="#FFFFFF" opacity="0.6" rotation="90 0 0" side="double"></a-ring>
-            <a-sphere position="0.4 0 0" radius="0.06" color="#00FF00"></a-sphere>
-            <a-sphere position="-0.4 0 0" radius="0.06" color="#00FF00"></a-sphere>
+
+          <!-- ПРОМІНЬ СВІТЛА ДО ПРИЗМИ -->
+          <a-cylinder position="-0.4 0 0" radius="0.015" height="0.8" rotation="0 0 90" color="#ffccff" material="blending: additive; opacity: 0.6"></a-cylinder>
+
+          <!-- СКЛЯНА ПРИЗМА -->
+          <a-entity position="0 0 0">
+             <!-- Мідна підставка -->
+             <a-cylinder position="0 -0.25 0" radius="0.03" height="0.5" color="#b87333" metalness="0.8"></a-cylinder>
+             <a-cylinder position="0 -0.5 0" radius="0.15" height="0.05" color="#3e2723"></a-cylinder>
+             
+             <!-- Трикутна призма (циліндр з 3 сегментами) -->
+             <a-cylinder position="0 0.1 0" radius="0.2" height="0.4" segments-radial="3" rotation="0 90 0" color="#e0f7fa" material="opacity: 0.7; transparent: true; roughness: 0.1; metalness: 0.5"></a-cylinder>
           </a-entity>
-          <a-entity animation="property: rotation; to: 0 -360 0; loop: true; dur: 4500; easing: linear">
-            <a-ring radius-inner="0.68" radius-outer="0.7" color="#FFFFFF" opacity="0.6" rotation="90 0 0" side="double"></a-ring>
-            <a-sphere position="0.7 0 0" radius="0.06" color="#00FF00"></a-sphere>
-            <a-sphere position="-0.7 0 0" radius="0.06" color="#00FF00"></a-sphere>
-            <a-sphere position="0 0 0.7" radius="0.06" color="#00FF00"></a-sphere>
-            <a-sphere position="0 0 -0.7" radius="0.06" color="#00FF00"></a-sphere>
+
+          <!-- РОЗЩЕПЛЕНІ СПЕКТРАЛЬНІ ЛІНІЇ (Серія Бальмера) -->
+          <a-entity position="0.45 0 0">
+            <!-- Червона лінія (656 nm) -->
+            <a-cylinder position="0 0 0.15" radius="0.01" height="0.9" rotation="0 0 90" color="#ff0000" material="blending: additive"></a-cylinder>
+            <!-- Блакитна лінія (486 nm) -->
+            <a-cylinder position="0 0 0.05" radius="0.01" height="0.9" rotation="0 0 90" color="#00ffff" material="blending: additive"></a-cylinder>
+            <!-- Синя лінія (434 nm) -->
+            <a-cylinder position="0 0 -0.05" radius="0.01" height="0.9" rotation="0 0 90" color="#0000ff" material="blending: additive"></a-cylinder>
+            <!-- Фіолетова лінія (410 nm) -->
+            <a-cylinder position="0 0 -0.15" radius="0.01" height="0.9" rotation="0 0 90" color="#8a2be2" material="blending: additive"></a-cylinder>
           </a-entity>
-          <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 6000; easing: linear">
-            <a-ring radius-inner="0.98" radius-outer="1.0" color="#FFFFFF" opacity="0.6" rotation="90 0 0" side="double"></a-ring>
-            <a-sphere position="1.0 0 0" radius="0.06" color="#00FF00"></a-sphere>
-            <a-sphere position="-1.0 0 0" radius="0.06" color="#00FF00"></a-sphere>
+
+          <!-- ФОТОГРАФІЧНА ПЛАСТИНКА (Екран спектрометра) -->
+          <a-entity position="0.9 0 0">
+             <!-- Підставка -->
+             <a-cylinder position="0 -0.25 0" radius="0.03" height="0.5" color="#b87333" metalness="0.8"></a-cylinder>
+             <!-- Чорний екран -->
+             <a-box position="0 0 0" width="0.05" height="0.5" depth="0.5" color="#111111" roughness="0.9"></a-box>
+             
+             <!-- Сяючі відбитки ліній на екрані -->
+             <a-plane position="-0.026 0 0.15" width="0.4" height="0.02" rotation="0 -90 0" color="#ff0000" material="blending: additive"></a-plane>
+             <a-plane position="-0.026 0 0.05" width="0.4" height="0.02" rotation="0 -90 0" color="#00ffff" material="blending: additive"></a-plane>
+             <a-plane position="-0.026 0 -0.05" width="0.4" height="0.02" rotation="0 -90 0" color="#0000ff" material="blending: additive"></a-plane>
+             <a-plane position="-0.026 0 -0.15" width="0.4" height="0.02" rotation="0 -90 0" color="#8a2be2" material="blending: additive"></a-plane>
           </a-entity>
-          <a-sphere radius="0.04" color="#FFD700"
-                    animation="property: position; from: 0.7 0 0; to: 2 0 1.5; loop: true; dur: 2000"
-                    animation__fade="property: opacity; from: 1; to: 0; loop: true; dur: 2000">
-          </a-sphere>
+          
+          <!-- Вінтажна підкладка -->
+          <a-plane position="0 -0.6 0" rotation="-90 0 0" width="3" height="3" color="#F5DEB3" material="opacity: 0.3; transparent: true"></a-plane>
+
         </a-entity>
       </a-marker>
       
@@ -406,43 +474,80 @@
       </a-marker>
 
       <!-- ========================================== -->
-      <!-- 5. МОДЕЛЬ ШРЕДІНГЕРА (1926)                -->
+      <!-- 5. МАРКЕР ШРЕДІНГЕРА (Портрет) - Живий Щоденник -->
       <!-- ========================================== -->
-      
-      <!-- Старий маркер Шредінгера -->
       <a-marker type="pattern" url="./pattern-schrodinger.patt">
-        <a-entity position="0 0.7 0">
-          <a-entity animation="property: position; to: 0 0.01 0; dir: alternate; dur: 150; loop: true; easing: easeInOutSine">
-            <a-sphere position="0 0 0" radius="0.07" color="#FF3300"></a-sphere>
-            <a-sphere position="0.05 0.04 0.02" radius="0.05" color="#DC143C"></a-sphere>
-            <a-sphere position="-0.04 -0.05 0.03" radius="0.05" color="#696969"></a-sphere>
-            <a-sphere position="0.04 -0.04 -0.04" radius="0.05" color="#DC143C"></a-sphere>
-            <a-sphere position="-0.05 0.03 -0.03" radius="0.05" color="#696969"></a-sphere>
-            <a-sphere position="0 0.06 -0.02" radius="0.05" color="#696969"></a-sphere>
-            <a-sphere position="-0.02 0.01 0.06" radius="0.05" color="#DC143C"></a-sphere>
+        
+        <!-- Загальний контейнер -->
+        <a-entity position="0 0.5 0" scale="0.8 0.8 0.8">
+          
+          <!-- ВІНТАЖНА ОСНОВА (Дерев'яний стіл) -->
+          <a-box position="0 -0.5 0" width="2" height="0.1" depth="1.5" color="#3e2723" roughness="0.9"></a-box>
+          
+          <!-- КВАНТОВА СКРИНЬКА (Відкрита спереду і зверху) -->
+          <a-entity position="0 0 0">
+            <!-- Дно -->
+            <a-box position="0 -0.4 0" width="1.6" height="0.05" depth="1.2" color="#5C4033" roughness="0.9"></a-box>
+            <!-- Задня стінка -->
+            <a-box position="0 0.1 -0.575" width="1.6" height="1" depth="0.05" color="#4a332a" roughness="0.9"></a-box>
+            <!-- Ліва стінка -->
+            <a-box position="-0.775 0.1 0" width="0.05" height="1" depth="1.2" color="#4a332a" roughness="0.9"></a-box>
+            <!-- Права стінка -->
+            <a-box position="0.775 0.1 0" width="0.05" height="1" depth="1.2" color="#4a332a" roughness="0.9"></a-box>
           </a-entity>
-          <a-entity animation="property: rotation; to: 360 720 180; loop: true; dur: 25000; easing: linear">
-            <a-sphere radius="0.25" color="#00FFFF" material="blending: additive; opacity: 0.25; transparent: true; side: double" animation="property: scale; to: 1.05 1.05 1.05; dir: alternate; dur: 800; loop: true"></a-sphere>
-            <a-sphere radius="0.45" color="#0088FF" material="blending: additive; opacity: 0.15; transparent: true; side: double" animation="property: scale; to: 1.1 1.1 1.1; dir: alternate; dur: 1500; loop: true"></a-sphere>
-            <a-sphere radius="0.7" color="#0011FF" material="blending: additive; opacity: 0.05; transparent: true; side: double" animation="property: scale; to: 1.15 1.15 1.15; dir: alternate; dur: 3000; loop: true"></a-sphere>
-            <a-entity animation="property: scale; to: 1.1 1 1; dir: alternate; dur: 1200; loop: true">
-              <a-sphere position="0.35 0 0" radius="0.18" scale="1.6 1 1" color="#FF00FF" material="blending: additive; opacity: 0.15; transparent: true"></a-sphere>
-              <a-sphere position="-0.35 0 0" radius="0.18" scale="1.6 1 1" color="#FF00FF" material="blending: additive; opacity: 0.15; transparent: true"></a-sphere>
-            </a-entity>
-            <a-entity animation="property: scale; to: 1 1.1 1; dir: alternate; dur: 1400; loop: true">
-              <a-sphere position="0 0.35 0" radius="0.18" scale="1 1.6 1" color="#AA00FF" material="blending: additive; opacity: 0.15; transparent: true"></a-sphere>
-              <a-sphere position="0 -0.35 0" radius="0.18" scale="1 1.6 1" color="#AA00FF" material="blending: additive; opacity: 0.15; transparent: true"></a-sphere>
-            </a-entity>
-            <a-entity animation="property: scale; to: 1 1 1.1; dir: alternate; dur: 1600; loop: true">
-              <a-sphere position="0 0 0.35" radius="0.18" scale="1 1 1.6" color="#7700FF" material="blending: additive; opacity: 0.15; transparent: true"></a-sphere>
-              <a-sphere position="0 0 -0.35" radius="0.18" scale="1 1 1.6" color="#7700FF" material="blending: additive; opacity: 0.15; transparent: true"></a-sphere>
+
+          <!-- МЕХАНІЗМ (Колба з отрутою та молоточок) -->
+          <a-entity position="-0.4 -0.2 0.2">
+            <!-- Скляна колба -->
+            <a-cylinder position="0 0 0" radius="0.15" height="0.2" color="#ffffff" material="opacity: 0.3; transparent: true"></a-cylinder>
+            <a-cylinder position="0 0.15 0" radius="0.05" height="0.1" color="#ffffff" material="opacity: 0.3; transparent: true"></a-cylinder>
+            <!-- Зелена отрута всередині (пульсує) -->
+            <a-sphere position="0 -0.05 0" radius="0.12" color="#00ff00" material="blending: additive; opacity: 0.8"
+                      animation="property: opacity; to: 0.4; dir: alternate; dur: 500; loop: true"></a-sphere>
+            
+            <!-- Молоточок (вагається над колбою) -->
+            <a-entity position="-0.2 0.4 0" animation="property: rotation; from: 0 0 0; to: 0 0 -30; dir: alternate; dur: 800; loop: true; easing: easeInOutQuad">
+              <a-cylinder position="0.15 0 0" radius="0.02" height="0.3" rotation="0 0 90" color="#704214"></a-cylinder>
+              <a-box position="0.3 0 0" width="0.1" height="0.08" depth="0.08" color="#777777" metalness="0.8"></a-box>
             </a-entity>
           </a-entity>
-          <a-entity>
-            <a-sphere radius="0.015" color="#FFFFFF" material="blending: additive" animation="property: position; from: 0.2 0.3 0.1; to: -0.3 -0.2 -0.4; dir: alternate; dur: 400; loop: true; easing: easeInOutElastic"></a-sphere>
-            <a-sphere radius="0.015" color="#FFFFFF" material="blending: additive" animation="property: position; from: -0.4 0.1 -0.2; to: 0.1 -0.5 0.3; dir: alternate; dur: 550; loop: true; easing: easeInOutElastic"></a-sphere>
-            <a-sphere radius="0.015" color="#FFFFFF" material="blending: additive" animation="property: position; from: 0.1 -0.1 0.5; to: -0.2 0.4 -0.1; dir: alternate; dur: 450; loop: true; easing: easeInOutElastic"></a-sphere>
+
+          <!-- КІТ ШРЕДІНГЕРА (У стані суперпозиції) -->
+          <!-- Кіт швидко вібрує у просторі (квантове тремтіння) -->
+          <a-entity position="0.3 -0.15 -0.1" animation="property: position; to: 0.32 -0.13 -0.08; dir: alternate; dur: 80; loop: true">
+            
+            <!-- ТІЛО (Колір змінюється від живого рудого до примарного мертвого блакитного) -->
+            <a-sphere position="0 0 0" radius="0.2" 
+                      animation="property: material.color; type: color; from: #FF8C00; to: #00FFFF; dir: alternate; dur: 600; loop: true"
+                      animation__op="property: opacity; from: 1; to: 0.5; dir: alternate; dur: 600; loop: true"></a-sphere>
+            
+            <!-- ГОЛОВА -->
+            <a-sphere position="0.15 0.2 0" radius="0.12" 
+                      animation="property: material.color; type: color; from: #FF8C00; to: #00FFFF; dir: alternate; dur: 600; loop: true"
+                      animation__op="property: opacity; from: 1; to: 0.5; dir: alternate; dur: 600; loop: true"></a-sphere>
+            
+            <!-- ВУХА -->
+            <a-cone position="0.1 0.3 0.06" radius-bottom="0.05" height="0.12" rotation="-20 0 30"
+                    animation="property: material.color; type: color; from: #FF8C00; to: #00FFFF; dir: alternate; dur: 600; loop: true"></a-cone>
+            <a-cone position="0.1 0.3 -0.06" radius-bottom="0.05" height="0.12" rotation="20 0 30"
+                    animation="property: material.color; type: color; from: #FF8C00; to: #00FFFF; dir: alternate; dur: 600; loop: true"></a-cone>
+            
+            <!-- ХВІСТ -->
+            <a-cylinder position="-0.2 0.1 0" radius="0.03" height="0.3" rotation="0 0 45"
+                        animation="property: material.color; type: color; from: #FF8C00; to: #00FFFF; dir: alternate; dur: 600; loop: true"></a-cylinder>
           </a-entity>
+
+          <!-- ХВИЛЬОВА ФУНКЦІЯ (Квантова ймовірність, що оточує коробку) -->
+          <a-entity position="0 0.2 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear">
+            <a-torus radius="1.2" radius-tubular="0.01" rotation="45 0 0" color="#aa00ff" material="blending: additive; opacity: 0.4"
+                     animation="property: scale; to: 1.1 1.1 1.1; dir: alternate; dur: 1200; loop: true"></a-torus>
+            <a-torus radius="1.2" radius-tubular="0.01" rotation="-45 90 0" color="#00ffff" material="blending: additive; opacity: 0.4"
+                     animation="property: scale; to: 1.1 1.1 1.1; dir: alternate; dur: 1500; loop: true"></a-torus>
+          </a-entity>
+
+          <!-- Вінтажна підкладка (аркуш паперу) під об'єктом -->
+          <a-plane position="0 -0.6 0" rotation="-90 0 0" width="3" height="3" color="#F5DEB3" material="opacity: 0.3; transparent: true"></a-plane>
+
         </a-entity>
       </a-marker>
       
