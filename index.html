@@ -6,26 +6,86 @@
     <title>Еволюція моделей атома (AR)</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@master/aframe/build/aframe-ar.js"></script>
+    <script>
+  AFRAME.registerComponent('soundhandler', {
+    init: function () {
+      this.soundEl = this.el.querySelector('.ambient-sound');
+      this.el.addEventListener('markerFound', () => {
+        if (this.soundEl) this.soundEl.components.sound.playSound();
+      });
+      this.el.addEventListener('markerLost', () => {
+        if (this.soundEl) this.soundEl.components.sound.pauseSound();
+      });
+    }
+  });
+</script>
   </head>
   <body style="margin: 0px; overflow: hidden;">
     
     <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false; patternRatio: 0.90;">
+      <a-assets>
+  <!-- Звук кабінету 19 століття (цокання, скрип) -->
+  <audio id="dalton-audio" src="https://cdn.pixabay.com/download/audio/2022/01/18/audio_82c694a919.mp3" preload="auto" loop></audio>
+  <!-- Шрифт із підтримкою кирилиці -->
+  <a-asset-item id="cyrillic-font" src="https://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts/ptsans/PTSans-Bold.json"></a-asset-item>
+</a-assets>
+
       
       <!-- ========================================== -->
-      <!-- 1. МОДЕЛЬ ДАЛЬТОНА (1803)                  -->
-      <!-- ========================================== -->
+<!-- 1. МАРКЕР ДАЛЬТОНА (Портрет) - Живий Щоденник -->
+<!-- ========================================== -->
+<a-marker type="pattern" url="./pattern-dalton.patt" soundhandler>
+  
+  <!-- Джерело звуку -->
+  <a-entity class="ambient-sound" sound="src: #dalton-audio; loop: true; volume: 2"></a-entity>
+
+  <!-- Загальний контейнер -->
+  <a-entity position="0 0.5 0" scale="0.8 0.8 0.8">
+    
+    <!-- СТАРОВИННІ ТЕРЕЗИ -->
+    <a-entity position="0 0.5 -1">
+      <!-- Основа -->
+      <a-cylinder position="0 -1.5 0" radius="0.4" height="0.1" color="#8B4513" roughness="0.9"></a-cylinder>
+      <a-cylinder position="0 -0.5 0" radius="0.05" height="2" color="#B8860B" metalness="0.8" roughness="0.2"></a-cylinder>
       
-      <!-- Старий маркер (Звичайний розмір) -->
-      <a-marker type="pattern" url="./pattern-dalton.patt">
-        <a-sphere position="0 0.5 0" radius="0.6" color="#A0522D" roughness="0.8"></a-sphere>
-      </a-marker>
-      
-      <!-- Новий маркер (Збільшена в 2 рази) -->
-      <a-marker type="pattern" url="./pattern-dalton-new.patt">
-        <a-entity scale="3 3 3" position="0 1.5 0">
-          <a-sphere position="0 0 0" radius="0.6" color="#A0522D" roughness="0.8"></a-sphere>
+      <!-- Коромисло (з анімацією гойдання) -->
+      <a-entity animation="property: rotation; from: 0 0 -5; to: 0 0 5; dir: alternate; dur: 2000; loop: true; easing: easeInOutSine">
+        <a-cylinder position="0 0 0" radius="0.04" height="2.5" rotation="0 0 90" color="#B8860B" metalness="0.8"></a-cylinder>
+        
+        <!-- Ліва шалька (Атом Дальтона) -->
+        <a-entity position="-1.2 -1 0">
+          <a-cylinder position="0 0 0" radius="0.3" height="0.05" color="#DAA520" metalness="0.7"></a-cylinder>
+          <a-cylinder position="0 0.5 0" radius="0.01" height="1" color="#DAA520"></a-cylinder>
+          <a-sphere position="0 0.25 0" radius="0.2" color="#8B0000" roughness="0.9"></a-sphere>
         </a-entity>
-      </a-marker>
+        
+        <!-- Права шалька (Гирьки) -->
+        <a-entity position="1.2 -1 0">
+          <a-cylinder position="0 0 0" radius="0.3" height="0.05" color="#DAA520" metalness="0.7"></a-cylinder>
+          <a-cylinder position="0 0.5 0" radius="0.01" height="1" color="#DAA520"></a-cylinder>
+          <a-cylinder position="0.1 0.1 0" radius="0.08" height="0.15" color="#CD7F32" metalness="0.8"></a-cylinder>
+          <a-cylinder position="-0.1 0.08 0" radius="0.06" height="0.1" color="#CD7F32" metalness="0.8"></a-cylinder>
+        </a-entity>
+      </a-entity>
+    </a-entity>
+
+    <!-- АНІМОВАНИЙ УКРАЇНСЬКИЙ ТЕКСТ -->
+    <a-entity position="0 1.8 0.5" animation="property: position; to: 0 2 0.5; dir: alternate; dur: 3000; loop: true; easing: easeInOutSine">
+      <a-text value="УСІ АТОМИ ОДНОГО ЕЛЕМЕНТА\nОДНАКОВІ" 
+              align="center" 
+              color="#D2B48C" 
+              font="https://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts/ptsans/PTSans-Bold.fnt"
+              font-image="https://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts/ptsans/PTSans-Bold.png"
+              width="4"
+              animation="property: opacity; from: 0.5; to: 1; dir: alternate; dur: 1500; loop: true">
+      </a-text>
+    </a-entity>
+    
+    <!-- Вінтажна підкладка -->
+    <a-plane position="0 -1.4 0" rotation="-90 0 0" width="3" height="3" color="#F5DEB3" material="opacity: 0.3; transparent: true"></a-plane>
+
+  </a-entity>
+</a-marker>
 
 <!-- Новий спрощений маркер (Збільшена в 2 рази) -->
       <a-marker type="pattern" url="./pattern-dalton-s.patt">
