@@ -128,6 +128,147 @@
     }
   });
 </script>
+ <script>
+  AFRAME.registerComponent('smart-rotate', {
+    schema: {
+      speed: {type: 'number', default: 0.25}, // Швидкість обертання на столику
+      delay: {type: 'number', default: 2000}  // Затримка в мілісекундах перед авто-обертанням
+    },
+    init: function () {
+      this.isInteracting = false;
+      this.resumeTimer = null;
+      this.previousX = 0;
+      this.previousY = 0;
+      this.previousAngle = null;
+
+      // Функція зупинки авто-обертання
+      const startInteraction = () => {
+        this.isInteracting = true;
+        clearTimeout(this.resumeTimer);
+      };
+
+      // Функція відновлення авто-обертання через 2 секунди
+      const stopInteraction = () => {
+        this.resumeTimer = setTimeout(() => {
+          this.isInteracting = false;
+        }, this.data.delay);
+      };
+
+      // --- Сенсорне керування (Смартфони / Планшети) ---
+      window.addEventListener('touchstart', (e) => {
+        startInteraction();
+        if (e.touches.length === 1) {
+          this.previousX = e.touches[0].clientX;
+          this.previousY = e.touches[0].clientY;
+        } else if (e.touches.length === 2) {
+          // Визначаємо початковий кут між двома пальцями для осі Z
+          this.previousAngle = Math.atan2(
+            e.touches[1].clientY - e.touches[0].clientY,
+            e.touches[1].clientX - e.touches[0].clientX
+          );
+        }
+      });
+
+      window.addEventListener('touchmove', (e) => {
+        if (!this.isInteracting) return;
+        const rotation = this.el.getAttribute('rotation');
+
+        if (e.touches.length === 1) {
+          // Обертання по X та Y (один палець)
+          const deltaX = e.touches[0].clientX - this.previousX;
+          const deltaY = e.touches[0].clientY - this.previousY;
+          this.el.setAttribute('rotation', {
+            x: rotation.x + deltaY * 0.4,
+            y: rotation.y + deltaX * 0.4,
+            z: rotation.z
+          });
+          this.previousX = e.touches[0].clientX;
+          this.previousY = e.touches[0].clientY;
+          
+        } else if (e.touches.length === 2 && this.previousAngle !== null) {
+          // Обертання по Z (рух "кермо" двома пальцями)
+          const currentAngle = Math.atan2(
+            e.touches[1].clientY - e.touches[0].clientY,
+            e.touches[1].clientX - e.touches[0].clientX
+          );
+          let deltaZ = (currentAngle - this.previousAngle) * (180 / Math.PI);
+          
+          // Коригування при переході через нуль
+          if (deltaZ > 180) deltaZ -= 360;
+          if (deltaZ < -180) deltaZ += 360;
+
+          this.el.setAttribute('rotation', {
+            x: rotation.x,
+            y: rotation.y,
+            z: rotation.z - deltaZ
+          });
+          this.previousAngle = currentAngle;
+        }
+      });
+
+      window.addEventListener('touchend', (e) => {
+        if (e.touches.length === 0) {
+          stopInteraction();
+          this.previousAngle = null;
+        } else if (e.touches.length === 1) {
+          this.previousX = e.touches[0].clientX;
+          this.previousY = e.touches[0].clientY;
+          this.previousAngle = null;
+        }
+      });
+
+      // --- Керування мишкою (для тестування на ПК) ---
+      window.addEventListener('mousedown', (e) => {
+        startInteraction();
+        this.previousX = e.clientX;
+        this.previousY = e.clientY;
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!this.isInteracting || e.buttons !== 1) return;
+        const deltaX = e.clientX - this.previousX;
+        const deltaY = e.clientY - this.previousY;
+        const rotation = this.el.getAttribute('rotation');
+
+        // Якщо затиснути клавішу Shift + тягнути мишкою -> обертання по осі Z
+        if (e.shiftKey) {
+          this.el.setAttribute('rotation', {
+            x: rotation.x,
+            y: rotation.y,
+            z: rotation.z - deltaX * 0.4
+          });
+        } else {
+          // Звичайне перетягування -> осі X та Y
+          this.el.setAttribute('rotation', {
+            x: rotation.x + deltaY * 0.4,
+            y: rotation.y + deltaX * 0.4,
+            z: rotation.z
+          });
+        }
+        this.previousX = e.clientX;
+        this.previousY = e.clientY;
+      });
+
+      window.addEventListener('mouseup', () => stopInteraction());
+    },
+    
+    // --- Постійний цикл: Автоматичне обертання "на столику" ---
+    tick: function (time, timeDelta) {
+      if (!this.isInteracting) {
+        const rotation = this.el.getAttribute('rotation');
+        // Нормалізація швидкості незалежно від частоти кадрів (FPS)
+        const delta = timeDelta > 100 ? 16 : timeDelta; 
+        
+        this.el.setAttribute('rotation', {
+          x: rotation.x,
+          y: rotation.y + (this.data.speed * delta / 16.6), 
+          z: rotation.z
+        });
+      }
+    }
+  });
+</script>
+    
   </head>
   <body style="margin: 0px; overflow: hidden;">
     <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false; patternRatio: 0.90;">
@@ -138,7 +279,7 @@
       <a-marker type="pattern" url="./pattern-dalton.patt" soundhandler>
         
         <!-- Загальний контейнер (Текст прибрано) -->
-        <a-entity position="0 0.5 0" scale="0.8 0.8 0.8" drag-rotate pinch-scale>
+        <a-entity position="0 0.5 0" scale="0.8 0.8 0.8" smart-rotate pinch-scale>
           
           <!-- СТАРОВИННІ ТЕРЕЗИ -->
           <a-entity position="0 0.5 0">
@@ -189,7 +330,7 @@
       <a-marker type="pattern" url="./pattern-thomson.patt">
         
         <!-- Загальний контейнер -->
-        <a-entity position="0 0.5 0" scale="0.8 0.8 0.8" drag-rotate pinch-scale>
+        <a-entity position="0 0.5 0" scale="0.8 0.8 0.8" smart-rotate pinch-scale>
           
           <!-- ВІНТАЖНА ОСНОВА (Дерев'яний стіл) -->
           <a-box position="0 -0.5 0" width="2.2" height="0.1" depth="0.8" color="#3e2723" roughness="0.9"></a-box>
@@ -289,7 +430,7 @@
       <a-marker type="pattern" url="./pattern-rutherford.patt">
         
         <!-- Загальний контейнер -->
-        <a-entity position="0 0.5 0" scale="0.8 0.8 0.8" drag-rotate pinch-scale>
+        <a-entity position="0 0.5 0" scale="0.8 0.8 0.8" smart-rotate pinch-scale>
           
           <!-- ВІНТАЖНА ОСНОВА (Дерев'яний стіл) -->
           <a-cylinder position="0 -0.5 0" radius="1.2" height="0.1" color="#3e2723" roughness="0.9"></a-cylinder>
@@ -442,7 +583,7 @@
       <a-marker type="pattern" url="./pattern-bohr.patt">
         
         <!-- Загальний контейнер -->
-        <a-entity position="0 0.5 0" scale="0.8 0.8 0.8" drag-rotate pinch-scale>
+        <a-entity position="0 0.5 0" scale="0.8 0.8 0.8" smart-rotate pinch-scale>
           
           <!-- ВІНТАЖНА ОСНОВА (Дерев'яний стіл) -->
           <a-box position="0 -0.5 0" width="2.4" height="0.1" depth="0.8" color="#3e2723" roughness="0.9"></a-box>
@@ -577,7 +718,7 @@
       <a-marker type="pattern" url="./pattern-schrodinger.patt">
         
         <!-- Загальний контейнер -->
-        <a-entity position="0 0.5 0" scale="0.8 0.8 0.8" drag-rotate pinch-scale>
+        <a-entity position="0 0.5 0" scale="0.8 0.8 0.8" smart-rotate pinch-scale>
           
           <!-- ВІНТАЖНА ОСНОВА (Дерев'яний стіл) -->
           <a-box position="0 -0.5 0" width="2" height="0.1" depth="1.5" color="#3e2723" roughness="0.9"></a-box>
