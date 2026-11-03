@@ -65,76 +65,12 @@
 </script>
     
     <script>
-  AFRAME.registerComponent('drag-rotate', {
-    init: function () {
-      let isDragging = false;
-      let previousX = 0;
-      let previousY = 0;
-
-      // --- Сенсорне керування (Смартфони / Планшети) ---
-      window.addEventListener('touchstart', (e) => {
-        if (e.touches.length === 1) {
-          isDragging = true;
-          previousX = e.touches[0].clientX;
-          previousY = e.touches[0].clientY;
-        }
-      });
-
-      window.addEventListener('touchmove', (e) => {
-        if (!isDragging || e.touches.length !== 1) return;
-
-        const deltaX = e.touches[0].clientX - previousX;
-        const deltaY = e.touches[0].clientY - previousY;
-        const rotation = this.el.getAttribute('rotation');
-
-        // Обертання по X (вертикальний жест) та Y (горизонтальний жест)
-        this.el.setAttribute('rotation', {
-          x: rotation.x + deltaY * 0.4,
-          y: rotation.y + deltaX * 0.4,
-          z: rotation.z
-        });
-
-        previousX = e.touches[0].clientX;
-        previousY = e.touches[0].clientY;
-      });
-
-      window.addEventListener('touchend', () => { isDragging = false; });
-
-      // --- Керування мишкою (для тестування на ПК) ---
-      window.addEventListener('mousedown', (e) => {
-        isDragging = true;
-        previousX = e.clientX;
-        previousY = e.clientY;
-      });
-
-      window.addEventListener('mousemove', (e) => {
-        if (!isDragging) return;
-
-        const deltaX = e.clientX - previousX;
-        const deltaY = e.clientY - previousY;
-        const rotation = this.el.getAttribute('rotation');
-
-        this.el.setAttribute('rotation', {
-          x: rotation.x + deltaY * 0.4,
-          y: rotation.y + deltaX * 0.4,
-          z: rotation.z
-        });
-
-        previousX = e.clientX;
-        previousY = e.clientY;
-      });
-
-      window.addEventListener('mouseup', () => { isDragging = false; });
-    }
-  });
-</script>
-
-    <script>
   AFRAME.registerComponent('smart-rotate', {
     schema: {
       speed: {type: 'number', default: 0.25}, // Швидкість авто-обертання
       delay: {type: 'number', default: 1500}, // Затримка перед поверненням
-      returnSpeed: {type: 'number', default: 0.05} // Швидкість вирівнювання
+      returnSpeed: {type: 'number', default: 0.05}, // Швидкість вирівнювання
+      autoRotate: {type: 'boolean', default: true}
     },
     init: function () {
       this.isInteracting = false;
@@ -255,7 +191,8 @@
     
     // --- Постійний цикл: Вирівнювання та Авто-обертання ---
     tick: function (time, timeDelta) {
-      if (this.isInteracting) return; // Якщо людина крутить - нічого не робимо
+      // Якщо людина крутить АБО авто-обертання вимкнено - нічого не робимо
+      if (this.isInteracting || !this.data.autoRotate) return;
 
       const rotation = this.el.getAttribute('rotation');
       const delta = timeDelta > 100 ? 16 : timeDelta; 
@@ -314,9 +251,9 @@
       <!-- ========================================== -->
       <!-- 1. МАРКЕР ДАЛЬТОНА (Портрет) - Живий Щоденник -->
       <!-- ========================================== -->
-      <a-marker type="pattern" url="./pattern-dalton.patt" soundhandler>
+      <a-marker type="pattern" url="./pattern-dalton.patt">
         
-        <!-- Загальний контейнер (Текст прибрано) -->
+        <!-- Загальний контейнер (тут стоїть smart-rotate та pinch-scale) -->
         <a-entity position="0 0.5 0" scale="0.8 0.8 0.8" smart-rotate pinch-scale shadow="cast: true">
           
           <!-- СТАРОВИННІ ТЕРЕЗИ -->
@@ -344,23 +281,25 @@
             </a-entity>
           </a-entity>
           
-          <!-- Додаємо невидиму підлогу для тіней ТІЛЬКИ сюди -->
-  <a-plane position="0 -0.1 0" rotation="-90 0 0" width="2.5" height="2.5" 
-           shadow="receive: true" material="shader: shadow; opacity: 0.45;">
-  </a-plane>
         </a-entity>
+
+        <!-- НЕВИДИМА ПЛОЩИНА ДЛЯ ТІНЕЙ (Винесена назовні, тепер вона не буде обертатися) -->
+        <a-plane position="0 -0.1 0" rotation="-90 0 0" width="2.5" height="2.5" 
+                 shadow="receive: true" material="shader: shadow; opacity: 0.45;">
+        </a-plane>
+        
       </a-marker>
 
       <!-- Новий маркер Дальтона (Збільшена в 2 рази) -->
       <a-marker type="pattern" url="./pattern-dalton-new.patt">
-        <a-entity scale="2 2 2" position="0 1.5 0" drag-rotate pinch-scale>
+        <a-entity scale="2 2 2" position="0 1.5 0" smart-rotate="autoRotate: false" pinch-scale>
           <a-sphere position="0 0 0" radius="0.6" color="#A0522D" roughness="0.8"></a-sphere>
         </a-entity>
       </a-marker>
       
       <!-- Новий спрощений маркер Дальтона (Збільшена в 2 рази) -->
       <a-marker type="pattern" url="./pattern-dalton-s.patt">
-        <a-entity scale="2 2 2" position="0 1.5 0" drag-rotate pinch-scale>
+        <a-entity scale="2 2 2" position="0 1.5 0" smart-rotate="autoRotate: false" pinch-scale>
           <a-sphere position="0 0 0" radius="0.6" color="#A0522D" roughness="0.8"></a-sphere>
         </a-entity>
       </a-marker>
@@ -425,7 +364,7 @@
       
       <!-- Новий маркер Томсона (Збільшена в 2 рази) -->
       <a-marker type="pattern" url="./pattern-thomson-new.patt">
-        <a-entity scale="2 2 2" position="0 1.5 0" drag-rotate pinch-scale>
+        <a-entity scale="2 2 2" position="0 1.5 0" smart-rotate="autoRotate: false" pinch-scale>
           <a-entity animation="property: rotation; to: 0 360 360; loop: true; dur: 25000; easing: linear">
             <a-sphere radius="0.75" color="#FF4500" material="opacity: 0.25; transparent: true; side: double" animation="property: scale; to: 1.03 1.03 1.03; dir: alternate; dur: 2000; loop: true; easing: easeInOutSine"></a-sphere>
             <a-sphere radius="0.55" color="#FF8C00" material="blending: additive; opacity: 0.4; transparent: true"></a-sphere>
@@ -447,7 +386,7 @@
 
       <!-- Спрощений маркер Томсона (Збільшена в 2 рази) -->
       <a-marker type="pattern" url="./pattern-thomson-s.patt">
-        <a-entity scale="2 2 2" position="0 1.5 0" drag-rotate pinch-scale>
+        <a-entity scale="2 2 2" position="0 1.5 0" smart-rotate="autoRotate: false" pinch-scale>
           <a-entity animation="property: rotation; to: 0 360 360; loop: true; dur: 25000; easing: linear">
             <a-sphere radius="0.75" color="#FF4500" material="opacity: 0.25; transparent: true; side: double" animation="property: scale; to: 1.03 1.03 1.03; dir: alternate; dur: 2000; loop: true; easing: easeInOutSine"></a-sphere>
             <a-sphere radius="0.55" color="#FF8C00" material="blending: additive; opacity: 0.4; transparent: true"></a-sphere>
@@ -530,7 +469,7 @@
       
       <!-- Новий маркер Резерфорда (Збільшена в 2 рази) -->
       <a-marker type="pattern" url="./pattern-rutherford-new.patt">
-        <a-entity scale="2 2 2" position="0 1.5 0" drag-rotate pinch-scale>
+        <a-entity scale="2 2 2" position="0 1.5 0" smart-rotate="autoRotate: false" pinch-scale>
           <a-entity>
             <a-sphere position="0 0 0" radius="0.15" color="#FF4500"></a-sphere>
             <a-sphere position="0.05 0.05 0" radius="0.1" color="#DC143C"></a-sphere>
@@ -577,7 +516,7 @@
 
       <!-- Спрощений маркер Резерфорда (Збільшена в 2 рази) -->
       <a-marker type="pattern" url="./pattern-rutherford-s.patt">
-        <a-entity scale="2 2 2" position="0 1.5 0" drag-rotate pinch-scale>
+        <a-entity scale="2 2 2" position="0 1.5 0" smart-rotate="autoRotate: false" pinch-scale>
           <a-entity>
             <a-sphere position="0 0 0" radius="0.15" color="#FF4500"></a-sphere>
             <a-sphere position="0.05 0.05 0" radius="0.1" color="#DC143C"></a-sphere>
@@ -697,7 +636,7 @@
       
       <!-- Новий маркер Бора (Збільшена в 2 рази) -->
       <a-marker type="pattern" url="./pattern-bohr-new.patt">
-        <a-entity scale="2 2 2" position="0 1.5 0" rotation="35 0 0" drag-rotate pinch-scale>
+        <a-entity scale="2 2 2" position="0 1.5 0" rotation="35 0 0" smart-rotate="autoRotate: false" pinch-scale>
           <a-entity>
             <a-sphere position="0 0 0" radius="0.12" color="#FF4500"></a-sphere>
             <a-sphere position="0.04 0.04 0" radius="0.08" color="#DC143C"></a-sphere>
@@ -729,7 +668,7 @@
 
       <!-- Спрощений маркер Бора (Збільшена в 2 рази) -->
       <a-marker type="pattern" url="./pattern-bohr-s.patt">
-        <a-entity scale="2 2 2" position="0 1.5 0" rotation="35 0 0" drag-rotate pinch-scale>
+        <a-entity scale="2 2 2" position="0 1.5 0" rotation="35 0 0" smart-rotate="autoRotate: false" pinch-scale>
           <a-entity>
             <a-sphere position="0 0 0" radius="0.12" color="#FF4500"></a-sphere>
             <a-sphere position="0.04 0.04 0" radius="0.08" color="#DC143C"></a-sphere>
@@ -841,7 +780,7 @@
       
       <!-- Новий маркер Шредінгера (Збільшена в 2 рази) -->
       <a-marker type="pattern" url="./pattern-schrodinger-new.patt">
-        <a-entity scale="2 2 2" position="0 1.5 0" drag-rotate pinch-scale>
+        <a-entity scale="2 2 2" position="0 1.5 0" smart-rotate="autoRotate: false" pinch-scale>
           <a-entity animation="property: position; to: 0 0.01 0; dir: alternate; dur: 150; loop: true; easing: easeInOutSine">
             <a-sphere position="0 0 0" radius="0.07" color="#FF3300"></a-sphere>
             <a-sphere position="0.05 0.04 0.02" radius="0.05" color="#DC143C"></a-sphere>
@@ -878,7 +817,7 @@
 
       <!-- Спрощений маркер Шредінгера (Збільшена в 2 рази) -->
       <a-marker type="pattern" url="./pattern-schrodinger-s.patt">
-        <a-entity scale="2 2 2" position="0 1.5 0" drag-rotate pinch-scale>
+        <a-entity scale="2 2 2" position="0 1.5 0" smart-rotate="autoRotate: false" pinch-scale>
           <a-entity animation="property: position; to: 0 0.01 0; dir: alternate; dur: 150; loop: true; easing: easeInOutSine">
             <a-sphere position="0 0 0" radius="0.07" color="#FF3300"></a-sphere>
             <a-sphere position="0.05 0.04 0.02" radius="0.05" color="#DC143C"></a-sphere>
