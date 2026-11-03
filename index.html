@@ -128,40 +128,44 @@
     }
   });
 </script>
- <script>
+
+    <script>
   AFRAME.registerComponent('smart-rotate', {
     schema: {
-      speed: {type: 'number', default: 0.25}, // Швидкість обертання на столику
-      delay: {type: 'number', default: 2000}  // Затримка в мілісекундах перед авто-обертанням
+      speed: {type: 'number', default: 0.25}, // Швидкість авто-обертання
+      delay: {type: 'number', default: 1500}, // Затримка перед поверненням
+      returnSpeed: {type: 'number', default: 0.05} // Швидкість вирівнювання
     },
     init: function () {
       this.isInteracting = false;
+      this.isReturning = false;
       this.resumeTimer = null;
       this.previousX = 0;
       this.previousY = 0;
       this.previousAngle = null;
 
-      // Функція зупинки авто-обертання
+      // Зупиняємо всі автоматичні процеси при дотику
       const startInteraction = () => {
         this.isInteracting = true;
+        this.isReturning = false;
         clearTimeout(this.resumeTimer);
       };
 
-      // Функція відновлення авто-обертання через 2 секунди
+      // Запускаємо таймер на повернення у вихідне положення
       const stopInteraction = () => {
         this.resumeTimer = setTimeout(() => {
           this.isInteracting = false;
+          this.isReturning = true; // Даємо команду на плавне вирівнювання
         }, this.data.delay);
       };
 
-      // --- Сенсорне керування (Смартфони / Планшети) ---
+      // --- Сенсорне керування ---
       window.addEventListener('touchstart', (e) => {
         startInteraction();
         if (e.touches.length === 1) {
           this.previousX = e.touches[0].clientX;
           this.previousY = e.touches[0].clientY;
         } else if (e.touches.length === 2) {
-          // Визначаємо початковий кут між двома пальцями для осі Z
           this.previousAngle = Math.atan2(
             e.touches[1].clientY - e.touches[0].clientY,
             e.touches[1].clientX - e.touches[0].clientX
@@ -174,7 +178,7 @@
         const rotation = this.el.getAttribute('rotation');
 
         if (e.touches.length === 1) {
-          // Обертання по X та Y (один палець)
+          // Обертання по X (вгору/вниз) та Y (вліво/вправо)
           const deltaX = e.touches[0].clientX - this.previousX;
           const deltaY = e.touches[0].clientY - this.previousY;
           this.el.setAttribute('rotation', {
@@ -186,14 +190,13 @@
           this.previousY = e.touches[0].clientY;
           
         } else if (e.touches.length === 2 && this.previousAngle !== null) {
-          // Обертання по Z (рух "кермо" двома пальцями)
+          // Обертання по Z (кермо)
           const currentAngle = Math.atan2(
             e.touches[1].clientY - e.touches[0].clientY,
             e.touches[1].clientX - e.touches[0].clientX
           );
           let deltaZ = (currentAngle - this.previousAngle) * (180 / Math.PI);
           
-          // Коригування при переході через нуль
           if (deltaZ > 180) deltaZ -= 360;
           if (deltaZ < -180) deltaZ += 360;
 
@@ -217,7 +220,7 @@
         }
       });
 
-      // --- Керування мишкою (для тестування на ПК) ---
+      // --- Керування мишкою (для ПК) ---
       window.addEventListener('mousedown', (e) => {
         startInteraction();
         this.previousX = e.clientX;
@@ -230,7 +233,6 @@
         const deltaY = e.clientY - this.previousY;
         const rotation = this.el.getAttribute('rotation');
 
-        // Якщо затиснути клавішу Shift + тягнути мишкою -> обертання по осі Z
         if (e.shiftKey) {
           this.el.setAttribute('rotation', {
             x: rotation.x,
@@ -238,7 +240,6 @@
             z: rotation.z - deltaX * 0.4
           });
         } else {
-          // Звичайне перетягування -> осі X та Y
           this.el.setAttribute('rotation', {
             x: rotation.x + deltaY * 0.4,
             y: rotation.y + deltaX * 0.4,
@@ -252,19 +253,43 @@
       window.addEventListener('mouseup', () => stopInteraction());
     },
     
-    // --- Постійний цикл: Автоматичне обертання "на столику" ---
+    // --- Постійний цикл: Вирівнювання та Авто-обертання ---
     tick: function (time, timeDelta) {
-      if (!this.isInteracting) {
-        const rotation = this.el.getAttribute('rotation');
-        // Нормалізація швидкості незалежно від частоти кадрів (FPS)
-        const delta = timeDelta > 100 ? 16 : timeDelta; 
+      if (this.isInteracting) return; // Якщо людина крутить - нічого не робимо
+
+      const rotation = this.el.getAttribute('rotation');
+      const delta = timeDelta > 100 ? 16 : timeDelta; 
+      
+      // Нормалізуємо кути X та Z, щоб вони були в межах від -180 до 180 (для правильного найкоротшого шляху)
+      let currentX = rotation.x % 360;
+      if (currentX > 180) currentX -= 360;
+      if (currentX < -180) currentX += 360;
+
+      let currentZ = rotation.z % 360;
+      if (currentZ > 180) currentZ -= 360;
+      if (currentZ < -180) currentZ += 360;
+
+      if (this.isReturning) {
+        // Плавне повернення осей X та Z до нуля (Lerp)
+        const lerpFactor = this.data.returnSpeed * (delta / 16.6);
         
-        this.el.setAttribute('rotation', {
-          x: rotation.x,
-          y: rotation.y + (this.data.speed * delta / 16.6), 
-          z: rotation.z
-        });
+        currentX = currentX - (currentX * lerpFactor);
+        currentZ = currentZ - (currentZ * lerpFactor);
+
+        // Якщо модель майже вирівнялася, припиняємо повернення і фіксуємо нулі
+        if (Math.abs(currentX) < 0.5 && Math.abs(currentZ) < 0.5) {
+          currentX = 0;
+          currentZ = 0;
+          this.isReturning = false; // Вирівнювання завершено
+        }
       }
+
+      // Додаємо авто-обертання тільки по осі Y
+      this.el.setAttribute('rotation', {
+        x: currentX,
+        y: rotation.y + (this.data.speed * delta / 16.6), 
+        z: currentZ
+      });
     }
   });
 </script>
