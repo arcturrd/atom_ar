@@ -296,7 +296,20 @@
     
   </head>
   <body style="margin: 0px; overflow: hidden;">
-    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false; patternRatio: 0.90;">
+    <!-- 1. Налаштовуємо сцени та рендер (з ACESFilmic, фізичним світлом та тінями) -->
+<a-scene embedded 
+         arjs="sourceType: webcam; debugUIEnabled: false; patternRatio: 0.90;"
+         renderer="toneMapping: ACESFilmic; physicallyCorrectLights: true; shadowMapEnabled: true;"
+         shadow="type: pcfsoft">
+
+  <!-- 2. Оптимізоване освітлення -->
+  <!-- Загальне фонове світло -->
+  <a-entity light="type: ambient; color: #ffffff; intensity: 1.2;"></a-entity>
+  
+  <!-- Спрямоване світло, яке відкидає м'яку тінь (інтенсивність 3.0 для фізичного згасання) -->
+  <a-entity light="type: directional; color: #fff5e6; intensity: 3.0; castShadow: true; shadowMapHeight: 1024; shadowMapWidth: 1024;" 
+            position="2 4 2">
+  </a-entity>
 
       <!-- ========================================== -->
       <!-- 1. МАРКЕР ДАЛЬТОНА (Портрет) - Живий Щоденник -->
@@ -304,7 +317,7 @@
       <a-marker type="pattern" url="./pattern-dalton.patt" soundhandler>
         
         <!-- Загальний контейнер (Текст прибрано) -->
-        <a-entity position="0 0.5 0" scale="0.8 0.8 0.8" smart-rotate pinch-scale>
+        <a-entity position="0 0.5 0" scale="0.8 0.8 0.8" smart-rotate pinch-scale shadow="cast: true">
           
           <!-- СТАРОВИННІ ТЕРЕЗИ -->
           <a-entity position="0 0.5 0">
@@ -331,7 +344,10 @@
             </a-entity>
           </a-entity>
           
-          <a-plane position="0 -1.4 0" rotation="-90 0 0" width="3" height="3" color="#F5DEB3" material="opacity: 0.3; transparent: true"></a-plane>
+          <!-- Додаємо невидиму підлогу для тіней ТІЛЬКИ сюди -->
+  <a-plane position="0 -0.1 0" rotation="-90 0 0" width="2.5" height="2.5" 
+           shadow="receive: true" material="shader: shadow; opacity: 0.45;">
+  </a-plane>
         </a-entity>
       </a-marker>
 
@@ -355,7 +371,7 @@
       <a-marker type="pattern" url="./pattern-thomson.patt">
         
         <!-- Загальний контейнер -->
-        <a-entity position="0 0.5 0" scale="0.8 0.8 0.8" smart-rotate pinch-scale>
+        <a-entity position="0 0.5 0" scale="0.8 0.8 0.8" smart-rotate pinch-scale shadow="cast: true">
           
           <!-- ВІНТАЖНА ОСНОВА (Дерев'яний стіл) -->
           <a-box position="0 -0.5 0" width="2.2" height="0.1" depth="0.8" color="#3e2723" roughness="0.9"></a-box>
@@ -399,8 +415,10 @@
                        animation="property: scale; to: 1.2 1.2 1.2; dir: alternate; dur: 100; loop: true"></a-sphere>
           </a-entity>
 
-          <!-- ВІНТАЖНА ПІДКЛАДКА (аркуш паперу під установкою) -->
-          <a-plane position="0 -0.55 0" rotation="-90 0 0" width="3" height="3" color="#F5DEB3" material="opacity: 0.3; transparent: true"></a-plane>
+          <!-- Додаємо невидиму підлогу для тіней ТІЛЬКИ сюди -->
+  <a-plane position="0 -0.1 0" rotation="-90 0 0" width="2.5" height="2.5" 
+           shadow="receive: true" material="shader: shadow; opacity: 0.45;">
+  </a-plane>
 
         </a-entity>
       </a-marker>
@@ -455,7 +473,7 @@
       <a-marker type="pattern" url="./pattern-rutherford.patt">
         
         <!-- Загальний контейнер -->
-        <a-entity position="0 0.5 0" scale="0.8 0.8 0.8" smart-rotate pinch-scale>
+        <a-entity position="0 0.5 0" scale="0.8 0.8 0.8" smart-rotate pinch-scale shadow="cast: true">
           
           <!-- ВІНТАЖНА ОСНОВА (Дерев'яний стіл) -->
           <a-cylinder position="0 -0.5 0" radius="1.2" height="0.1" color="#3e2723" roughness="0.9"></a-cylinder>
@@ -502,8 +520,10 @@
                       animation__fade="property: opacity; from: 1; to: 0; dur: 1500; loop: true"></a-sphere>
           </a-entity>
 
-          <!-- Вінтажна підкладка (аркуш паперу) під об'єктом -->
-          <a-plane position="0 -0.6 0" rotation="-90 0 0" width="3" height="3" color="#F5DEB3" material="opacity: 0.3; transparent: true"></a-plane>
+          <!-- Додаємо невидиму підлогу для тіней ТІЛЬКИ сюди -->
+  <a-plane position="0 -0.1 0" rotation="-90 0 0" width="2.5" height="2.5" 
+           shadow="receive: true" material="shader: shadow; opacity: 0.45;">
+  </a-plane>
 
         </a-entity>
       </a-marker>
@@ -608,7 +628,7 @@
       <a-marker type="pattern" url="./pattern-bohr.patt">
         
         <!-- Загальний контейнер -->
-        <a-entity position="0 0.5 0" scale="0.8 0.8 0.8" smart-rotate pinch-scale>
+        <a-entity position="0 0.5 0" scale="0.8 0.8 0.8" smart-rotate pinch-scale shadow="cast: true">
           
           <!-- ВІНТАЖНА ОСНОВА (Дерев'яний стіл) -->
           <a-box position="0 -0.5 0" width="2.4" height="0.1" depth="0.8" color="#3e2723" roughness="0.9"></a-box>
@@ -667,8 +687,10 @@
              <a-plane position="-0.026 0 -0.15" width="0.4" height="0.02" rotation="0 -90 0" color="#8a2be2" material="blending: additive"></a-plane>
           </a-entity>
           
-          <!-- Вінтажна підкладка -->
-          <a-plane position="0 -0.6 0" rotation="-90 0 0" width="3" height="3" color="#F5DEB3" material="opacity: 0.3; transparent: true"></a-plane>
+          <!-- Додаємо невидиму підлогу для тіней ТІЛЬКИ сюди -->
+  <a-plane position="0 -0.1 0" rotation="-90 0 0" width="2.5" height="2.5" 
+           shadow="receive: true" material="shader: shadow; opacity: 0.45;">
+  </a-plane>
 
         </a-entity>
       </a-marker>
@@ -743,7 +765,7 @@
       <a-marker type="pattern" url="./pattern-schrodinger.patt">
         
         <!-- Загальний контейнер -->
-        <a-entity position="0 0.5 0" scale="0.8 0.8 0.8" smart-rotate pinch-scale>
+        <a-entity position="0 0.5 0" scale="0.8 0.8 0.8" smart-rotate pinch-scale shadow="cast: true">
           
           <!-- ВІНТАЖНА ОСНОВА (Дерев'яний стіл) -->
           <a-box position="0 -0.5 0" width="2" height="0.1" depth="1.5" color="#3e2723" roughness="0.9"></a-box>
@@ -809,8 +831,10 @@
                      animation="property: scale; to: 1.1 1.1 1.1; dir: alternate; dur: 1500; loop: true"></a-torus>
           </a-entity>
 
-          <!-- Вінтажна підкладка (аркуш паперу) під об'єктом -->
-          <a-plane position="0 -0.6 0" rotation="-90 0 0" width="3" height="3" color="#F5DEB3" material="opacity: 0.3; transparent: true"></a-plane>
+          <!-- Додаємо невидиму підлогу для тіней ТІЛЬКИ сюди -->
+  <a-plane position="0 -0.1 0" rotation="-90 0 0" width="2.5" height="2.5" 
+           shadow="receive: true" material="shader: shadow; opacity: 0.45;">
+  </a-plane>
 
         </a-entity>
       </a-marker>
