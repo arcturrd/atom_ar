@@ -6,70 +6,65 @@
     <title>Еволюція моделей атома (AR)</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@master/aframe/build/aframe-ar.js"></script>
+
     <script>
   AFRAME.registerComponent('pinch-scale', {
-    schema: {
-      min: {type: 'number', default: 0.2},
-      max: {type: 'number', default: 3.5}
-    },
+    schema: { min: {type: 'number', default: 0.2}, max: {type: 'number', default: 3.5} },
     init: function () {
       let initialDistance = 0;
       let initialScale = { x: 1, y: 1, z: 1 };
+      
+      // БЕЗПЕЧНА ПЕРЕВІРКА: чи існує маркер, його 3D-об'єкт, і чи він у кадрі
+      this.isVisible = () => {
+        const marker = this.el.closest('a-marker');
+        return marker && marker.object3D && marker.object3D.visible;
+      };
 
-      // --- Масштабування двома пальцями (Смартфони / Планшети) ---
       window.addEventListener('touchstart', (e) => {
+        if (!this.isVisible()) return;
         if (e.touches.length === 2) {
-          initialDistance = Math.hypot(
-            e.touches[0].clientX - e.touches[1].clientX,
-            e.touches[0].clientY - e.touches[1].clientY
-          );
+          initialDistance = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
           initialScale = Object.assign({}, this.el.getAttribute('scale'));
         }
       });
 
       window.addEventListener('touchmove', (e) => {
+        if (!this.isVisible()) return;
         if (e.touches.length === 2 && initialDistance > 0) {
-          const currentDistance = Math.hypot(
-            e.touches[0].clientX - e.touches[1].clientX,
-            e.touches[0].clientY - e.touches[1].clientY
-          );
-          const factor = currentDistance / initialDistance;
-
-          let newScaleX = Math.min(Math.max(initialScale.x * factor, this.data.min), this.data.max);
-          let newScaleY = Math.min(Math.max(initialScale.y * factor, this.data.min), this.data.max);
-          let newScaleZ = Math.min(Math.max(initialScale.z * factor, this.data.min), this.data.max);
-
-          this.el.setAttribute('scale', `${newScaleX} ${newScaleY} ${newScaleZ}`);
+          const factor = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY) / initialDistance;
+          this.el.setAttribute('scale', {
+            x: Math.min(Math.max(initialScale.x * factor, this.data.min), this.data.max),
+            y: Math.min(Math.max(initialScale.y * factor, this.data.min), this.data.max),
+            z: Math.min(Math.max(initialScale.z * factor, this.data.min), this.data.max)
+          });
         }
       });
 
       window.addEventListener('touchend', (e) => {
-        if (e.touches.length < 2) {
-          initialDistance = 0;
-        }
+        if (!this.isVisible()) return;
+        if (e.touches.length < 2) initialDistance = 0;
       });
 
-      // --- Масштабування колесиком мишки (для ПК) ---
       window.addEventListener('wheel', (e) => {
+        if (!this.isVisible()) return;
         const scale = this.el.getAttribute('scale');
         const factor = e.deltaY < 0 ? 1.1 : 0.9;
-
-        let newX = Math.min(Math.max(scale.x * factor, this.data.min), this.data.max);
-        let newY = Math.min(Math.max(scale.y * factor, this.data.min), this.data.max);
-        let newZ = Math.min(Math.max(scale.z * factor, this.data.min), this.data.max);
-
-        this.el.setAttribute('scale', `${newX} ${newY} ${newZ}`);
+        this.el.setAttribute('scale', {
+          x: Math.min(Math.max(scale.x * factor, this.data.min), this.data.max),
+          y: Math.min(Math.max(scale.y * factor, this.data.min), this.data.max),
+          z: Math.min(Math.max(scale.z * factor, this.data.min), this.data.max)
+        });
       });
     }
   });
 </script>
-    
-    <script>
+
+<script>
   AFRAME.registerComponent('smart-rotate', {
     schema: {
-      speed: {type: 'number', default: 0.25}, // Швидкість авто-обертання
-      delay: {type: 'number', default: 1500}, // Затримка перед поверненням
-      returnSpeed: {type: 'number', default: 0.05}, // Швидкість вирівнювання
+      speed: {type: 'number', default: 0.25},
+      delay: {type: 'number', default: 1500},
+      returnSpeed: {type: 'number', default: 0.05},
       autoRotate: {type: 'boolean', default: true}
     },
     init: function () {
@@ -80,41 +75,41 @@
       this.previousY = 0;
       this.previousAngle = null;
 
-      // Зупиняємо всі автоматичні процеси при дотику
+      // БЕЗПЕЧНА ПЕРЕВІРКА
+      this.isVisible = () => {
+        const marker = this.el.closest('a-marker');
+        return marker && marker.object3D && marker.object3D.visible;
+      };
+
       const startInteraction = () => {
         this.isInteracting = true;
         this.isReturning = false;
         clearTimeout(this.resumeTimer);
       };
 
-      // Запускаємо таймер на повернення у вихідне положення
       const stopInteraction = () => {
         this.resumeTimer = setTimeout(() => {
           this.isInteracting = false;
-          this.isReturning = true; // Даємо команду на плавне вирівнювання
+          this.isReturning = true;
         }, this.data.delay);
       };
 
-      // --- Сенсорне керування ---
       window.addEventListener('touchstart', (e) => {
+        if (!this.isVisible()) return;
         startInteraction();
         if (e.touches.length === 1) {
           this.previousX = e.touches[0].clientX;
           this.previousY = e.touches[0].clientY;
         } else if (e.touches.length === 2) {
-          this.previousAngle = Math.atan2(
-            e.touches[1].clientY - e.touches[0].clientY,
-            e.touches[1].clientX - e.touches[0].clientX
-          );
+          this.previousAngle = Math.atan2(e.touches[1].clientY - e.touches[0].clientY, e.touches[1].clientX - e.touches[0].clientX);
         }
       });
 
       window.addEventListener('touchmove', (e) => {
-        if (!this.isInteracting) return;
+        if (!this.isVisible() || !this.isInteracting) return;
         const rotation = this.el.getAttribute('rotation');
 
         if (e.touches.length === 1) {
-          // Обертання по X (вгору/вниз) та Y (вліво/вправо)
           const deltaX = e.touches[0].clientX - this.previousX;
           const deltaY = e.touches[0].clientY - this.previousY;
           this.el.setAttribute('rotation', {
@@ -124,109 +119,50 @@
           });
           this.previousX = e.touches[0].clientX;
           this.previousY = e.touches[0].clientY;
-          
         } else if (e.touches.length === 2 && this.previousAngle !== null) {
-          // Обертання по Z (кермо)
-          const currentAngle = Math.atan2(
-            e.touches[1].clientY - e.touches[0].clientY,
-            e.touches[1].clientX - e.touches[0].clientX
-          );
+          const currentAngle = Math.atan2(e.touches[1].clientY - e.touches[0].clientY, e.touches[1].clientX - e.touches[0].clientX);
           let deltaZ = (currentAngle - this.previousAngle) * (180 / Math.PI);
-          
           if (deltaZ > 180) deltaZ -= 360;
           if (deltaZ < -180) deltaZ += 360;
-
-          this.el.setAttribute('rotation', {
-            x: rotation.x,
-            y: rotation.y,
-            z: rotation.z - deltaZ
-          });
+          this.el.setAttribute('rotation', { x: rotation.x, y: rotation.y, z: rotation.z - deltaZ });
           this.previousAngle = currentAngle;
         }
       });
 
       window.addEventListener('touchend', (e) => {
-        if (e.touches.length === 0) {
-          stopInteraction();
-          this.previousAngle = null;
-        } else if (e.touches.length === 1) {
-          this.previousX = e.touches[0].clientX;
-          this.previousY = e.touches[0].clientY;
-          this.previousAngle = null;
-        }
+        if (!this.isVisible()) return;
+        if (e.touches.length === 0) { stopInteraction(); this.previousAngle = null; }
+        else if (e.touches.length === 1) { this.previousX = e.touches[0].clientX; this.previousY = e.touches[0].clientY; this.previousAngle = null; }
       });
 
-      // --- Керування мишкою (для ПК) ---
-      window.addEventListener('mousedown', (e) => {
-        startInteraction();
-        this.previousX = e.clientX;
-        this.previousY = e.clientY;
-      });
-
+      window.addEventListener('mousedown', (e) => { if (!this.isVisible()) return; startInteraction(); this.previousX = e.clientX; this.previousY = e.clientY; });
       window.addEventListener('mousemove', (e) => {
-        if (!this.isInteracting || e.buttons !== 1) return;
-        const deltaX = e.clientX - this.previousX;
-        const deltaY = e.clientY - this.previousY;
+        if (!this.isVisible() || !this.isInteracting || e.buttons !== 1) return;
         const rotation = this.el.getAttribute('rotation');
-
-        if (e.shiftKey) {
-          this.el.setAttribute('rotation', {
-            x: rotation.x,
-            y: rotation.y,
-            z: rotation.z - deltaX * 0.4
-          });
-        } else {
-          this.el.setAttribute('rotation', {
-            x: rotation.x + deltaY * 0.4,
-            y: rotation.y + deltaX * 0.4,
-            z: rotation.z
-          });
-        }
-        this.previousX = e.clientX;
-        this.previousY = e.clientY;
+        if (e.shiftKey) { this.el.setAttribute('rotation', { x: rotation.x, y: rotation.y, z: rotation.z - (e.clientX - this.previousX) * 0.4 }); } 
+        else { this.el.setAttribute('rotation', { x: rotation.x + (e.clientY - this.previousY) * 0.4, y: rotation.y + (e.clientX - this.previousX) * 0.4, z: rotation.z }); }
+        this.previousX = e.clientX; this.previousY = e.clientY;
       });
-
-      window.addEventListener('mouseup', () => stopInteraction());
+      window.addEventListener('mouseup', () => { if (this.isVisible()) stopInteraction(); });
     },
     
-    // --- Постійний цикл: Вирівнювання та Авто-обертання ---
     tick: function (time, timeDelta) {
-      // Якщо людина крутить АБО авто-обертання вимкнено - нічого не робимо
+      if (!this.isVisible()) return; // Якщо маркер ще не завантажився або не в кадрі — зупиняємо цикл
       if (this.isInteracting || !this.data.autoRotate) return;
 
       const rotation = this.el.getAttribute('rotation');
       const delta = timeDelta > 100 ? 16 : timeDelta; 
       
-      // Нормалізуємо кути X та Z, щоб вони були в межах від -180 до 180 (для правильного найкоротшого шляху)
-      let currentX = rotation.x % 360;
-      if (currentX > 180) currentX -= 360;
-      if (currentX < -180) currentX += 360;
-
-      let currentZ = rotation.z % 360;
-      if (currentZ > 180) currentZ -= 360;
-      if (currentZ < -180) currentZ += 360;
+      let currentX = rotation.x % 360; if (currentX > 180) currentX -= 360; if (currentX < -180) currentX += 360;
+      let currentZ = rotation.z % 360; if (currentZ > 180) currentZ -= 360; if (currentZ < -180) currentZ += 360;
 
       if (this.isReturning) {
-        // Плавне повернення осей X та Z до нуля (Lerp)
         const lerpFactor = this.data.returnSpeed * (delta / 16.6);
-        
-        currentX = currentX - (currentX * lerpFactor);
-        currentZ = currentZ - (currentZ * lerpFactor);
-
-        // Якщо модель майже вирівнялася, припиняємо повернення і фіксуємо нулі
-        if (Math.abs(currentX) < 0.5 && Math.abs(currentZ) < 0.5) {
-          currentX = 0;
-          currentZ = 0;
-          this.isReturning = false; // Вирівнювання завершено
-        }
+        currentX -= currentX * lerpFactor;
+        currentZ -= currentZ * lerpFactor;
+        if (Math.abs(currentX) < 0.5 && Math.abs(currentZ) < 0.5) { currentX = 0; currentZ = 0; this.isReturning = false; }
       }
-
-      // Додаємо авто-обертання тільки по осі Y
-      this.el.setAttribute('rotation', {
-        x: currentX,
-        y: rotation.y + (this.data.speed * delta / 16.6), 
-        z: currentZ
-      });
+      this.el.setAttribute('rotation', { x: currentX, y: rotation.y + (this.data.speed * delta / 16.6), z: currentZ });
     }
   });
 </script>
